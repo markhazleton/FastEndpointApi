@@ -8,7 +8,7 @@ namespace FastEndpointApi.endpoints.person.delete
     {
         public override void Configure()
         {
-            Delete("/api/user/delete/{PersonId}"); // Using route parameter for PersonId.
+            Delete("/api/person/delete/{PersonId}"); // Using route parameter for PersonId.
             AllowAnonymous();
         }
 

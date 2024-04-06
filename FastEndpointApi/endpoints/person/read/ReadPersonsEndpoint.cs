@@ -8,7 +8,7 @@ public class ReadPersonsEndpoint(IPersonService personService) : PersonEndpointB
 {
     public override void Configure()
     {
-        Get("/api/user/"); // Using route parameter for PersonId.
+        Get("/api/person/"); // Using route parameter for PersonId.
         AllowAnonymous();
     }
 

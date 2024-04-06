@@ -12,7 +12,7 @@ public class CreatePersonEndpoint(IPersonService personService) : PersonEndpoint
     /// </summary>
     public override void Configure()
     {
-        Post("/api/user/create");
+        Post("/api/person/create");
         AllowAnonymous();
         Description(b => b.Accepts<CreatePersonRequest>());
     }

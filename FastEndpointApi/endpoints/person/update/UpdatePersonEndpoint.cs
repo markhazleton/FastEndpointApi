@@ -8,7 +8,7 @@ namespace FastEndpointApi.endpoints.person.update
     {
         public override void Configure()
         {
-            Put("/api/user/update/{PersonId}"); // Using route parameter for PersonId.
+            Put("/api/person/update/{PersonId}"); // Using route parameter for PersonId.
             AllowAnonymous();
         }
 
