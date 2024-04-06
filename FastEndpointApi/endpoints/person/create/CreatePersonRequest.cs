@@ -1,4 +1,4 @@
-namespace FastEndpointApi.endpoints.person;
+namespace FastEndpointApi.endpoints.person.create;
 
 /// <summary>
 /// Represents a request to create a person.

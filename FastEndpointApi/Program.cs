@@ -1,3 +1,4 @@
+using FastEndpointApi.services.person;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 
@@ -11,6 +12,10 @@ builder.Services.SwaggerDocument(o =>
         s.Version = "v1";
     };
 });
+builder.Services.AddSingleton<IPersonService, PersonService>();
+
 var app = builder.Build();
-app.UseFastEndpoints().UseSwaggerGen();
+app.UseFastEndpoints();
+app.UseSwaggerGen();
+app.MapGet("/", () => Results.Redirect("/swagger"));
 app.Run();
