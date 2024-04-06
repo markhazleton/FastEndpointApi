@@ -1,5 +1,6 @@
 using FastEndpointApi.mappings.person;
 using FastEndpointApi.services.person;
+using FastEndpoints;
 
 namespace FastEndpointApi.endpoints.person.create;
 
@@ -13,7 +14,9 @@ public class CreatePersonEndpoint(IPersonService personService) : PersonEndpoint
     {
         Post("/api/user/create");
         AllowAnonymous();
+        Description(b => b.Accepts<CreatePersonRequest>());
     }
+
 
     /// <summary>
     /// Handles the create person request asynchronously.
