@@ -29,5 +29,5 @@ public interface IPersonService
     /// <param name="id">The unique identifier of the person to update.</param>
     /// <param name="updatedPerson">The updated person data.</param>
     /// <returns>The updated person, or null if not found.</returns>
-    PersonEntity UpdatePerson(Guid id, PersonEntity updatedPerson);
+    PersonEntity UpdatePerson(string id, PersonEntity updatedPerson);
 }

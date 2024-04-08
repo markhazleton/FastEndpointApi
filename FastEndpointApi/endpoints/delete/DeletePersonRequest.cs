@@ -1,8 +1,13 @@
 namespace FastEndpointApi.endpoints.delete
 {
-    // Represents a request to delete a person by ID.
+    /// <summary>
+    /// DeletePersonRequest is a class that represents the request to delete a person.
+    /// </summary>
     public class DeletePersonRequest
     {
-        public Guid PersonId { get; set; } // To identify which person to delete.
+        /// <summary>
+        /// The person id.
+        /// </summary>
+        public string? PersonId { get; set; } // To identify which person to delete.
     }
 }

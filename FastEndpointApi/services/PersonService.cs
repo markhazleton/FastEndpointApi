@@ -37,9 +37,10 @@
         /// <param name="id">The unique identifier of the person to update.</param>
         /// <param name="updatedPerson">The updated person data.</param>
         /// <returns>The updated person, or null if not found.</returns>
-        public PersonEntity UpdatePerson(Guid id, PersonEntity updatedPerson)
+        public PersonEntity UpdatePerson(string id, PersonEntity updatedPerson)
         {
-            var person = _people.FirstOrDefault(p => p.Id == id);
+            Guid personId = Guid.Parse(id);
+            var person = _people.FirstOrDefault(p => p.Id == personId);
             if (person != null)
             {
                 person.FirstName = updatedPerson.FirstName;
