@@ -1,4 +1,4 @@
-﻿namespace FastEndpointApi.services.person
+﻿namespace FastEndpointApi.services
 {
 
     /// <summary>
@@ -25,9 +25,10 @@
         /// </summary>
         /// <param name="id">The unique identifier of the person.</param>
         /// <returns>The person with the specified identifier, or null if not found.</returns>
-        public PersonEntity ReadPerson(Guid id)
+        public PersonEntity ReadPerson(string id)
         {
-            return _people.FirstOrDefault(p => p.Id == id);
+            Guid guid = new(id);
+            return _people.FirstOrDefault(p => p.Id == guid);
         }
 
         /// <summary>
@@ -53,9 +54,11 @@
         /// Deletes a person by their unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the person to delete.</param>
-        public void DeletePerson(Guid id)
+        public void DeletePerson(string id)
         {
-            var person = _people.FirstOrDefault(p => p.Id == id);
+            Guid guid = new(id);
+            var person = _people.FirstOrDefault(p => p.Id == guid);
+
             if (person != null)
             {
                 _people.Remove(person);

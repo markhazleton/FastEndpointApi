@@ -1,4 +1,4 @@
-namespace FastEndpointApi.endpoints.person.delete
+namespace FastEndpointApi.endpoints.delete
 {
     // Represents a request to delete a person by ID.
     public class DeletePersonRequest

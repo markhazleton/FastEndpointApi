@@ -1,6 +1,6 @@
-using FastEndpointApi.endpoints.person.create;
+using FastEndpointApi.endpoints.create;
 
-namespace FastEndpointApi.endpoints.person.update
+namespace FastEndpointApi.endpoints.update
 {
     // Represents a request to update a person.
     public class UpdatePersonRequest : CreatePersonRequest

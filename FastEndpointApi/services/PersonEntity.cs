@@ -1,4 +1,4 @@
-﻿namespace FastEndpointApi.services.person;
+﻿namespace FastEndpointApi.services;
 
 /// <summary>
 /// Represents a person entity.
