@@ -34,6 +34,10 @@ namespace FastEndpointApi.endpoints.update
                 Age = req.Age,
                 Email = req.Email
             });
+            if (person == null)
+            {
+                return SendNotFoundAsync(cancellation: ct);
+            }
             Response = new PersonResponse
             {
                 FullName = $"{person.FirstName} {person.LastName}",

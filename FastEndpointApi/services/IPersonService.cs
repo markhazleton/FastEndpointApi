@@ -13,7 +13,7 @@ public interface IPersonService
     /// Deletes a person by their unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the person to delete.</param>
-    void DeletePerson(string id);
+    bool DeletePerson(string? id);
 
     /// <summary>
     /// Reads a person by their unique identifier.

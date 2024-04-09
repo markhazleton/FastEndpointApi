@@ -28,10 +28,13 @@ public class DeletePersonEndpoint : EndpointWithoutRequest
     /// Handles the delete person request asynchronously.
     /// </summary>
     /// <param name="ct">The cancellation token.</param>
-    public override async Task HandleAsync(CancellationToken ct)
+    public override Task HandleAsync(CancellationToken ct)
     {
         var personId = Route<string>("Id");
-        _personService.DeletePerson(personId);
-        await SendNoContentAsync(cancellation: ct);
+        if (_personService.DeletePerson(personId))
+            return SendNoContentAsync(cancellation: ct);
+        else
+            return SendNotFoundAsync(cancellation: ct);
+
     }
 }

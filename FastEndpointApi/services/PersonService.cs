@@ -65,16 +65,22 @@
         /// Deletes a person by their unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the person to delete.</param>
-        public void DeletePerson(string id)
+        public bool DeletePerson(string? id)
         {
+            if (id == null)
+            {
+                return false;
+            }
             if (Guid.TryParse(id, out Guid guid))
             {
                 var person = _people.FirstOrDefault(p => p.Id == guid);
                 if (person != null)
                 {
                     _people.Remove(person);
+                    return true;
                 }
             }
+            return false;
         }
 
         public List<PersonEntity> ReadPersons()
