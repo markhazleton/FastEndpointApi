@@ -1,30 +1,37 @@
-using FastEndpointApi.services;
 using FastEndpoints;
+using FastEndpointApi.services;
 
 namespace FastEndpointApi.endpoints.delete;
 
-
 /// <summary>
-/// Endpoint for deleting a person.
+/// Represents the endpoint for deleting a person by their ID.
 /// </summary>
-/// <remarks>
-/// Initializes a new instance of the <see cref="DeletePersonEndpoint"/> class.
-/// </remarks>
-/// <param name="personService">The person service.</param>
-public class DeletePersonEndpoint(IPersonService personService) : Endpoint<string>
+public class DeletePersonEndpoint : EndpointWithoutRequest
 {
+    private readonly IPersonService _personService;
 
-    /// <inheritdoc/>
-    public override void Configure()
+    public DeletePersonEndpoint(IPersonService personService)
     {
-        Delete("/api/person/delete/{PersonId}");
-        AllowAnonymous();
+        _personService = personService;
     }
 
-    /// <inheritdoc/>
-    public override async Task HandleAsync(string PersonId, CancellationToken ct)
+    /// <summary>
+    /// Configures the endpoint.
+    /// </summary>
+    public override void Configure()
     {
-        personService.DeletePerson(PersonId);
-        await SendOkAsync(ct);
+        Delete("/api/person/{Id}");
+        AllowAnonymous(); // or use [Authorize] if needed
+    }
+
+    /// <summary>
+    /// Handles the delete person request asynchronously.
+    /// </summary>
+    /// <param name="ct">The cancellation token.</param>
+    public override async Task HandleAsync(CancellationToken ct)
+    {
+        var personId = Route<string>("Id");
+        _personService.DeletePerson(personId);
+        await SendNoContentAsync(cancellation: ct);
     }
 }

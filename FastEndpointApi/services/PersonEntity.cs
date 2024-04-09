@@ -3,30 +3,30 @@
 /// <summary>
 /// Represents a person entity.
 /// </summary>
-public class PersonEntity
+public record PersonEntity
 {
     /// <summary>
     /// Gets or sets the unique identifier for the person.
     /// </summary>
-    public Guid Id { get; set; } // Unique identifier for the person.
+    public Guid Id { get; init; } // Unique identifier for the person.
 
     /// <summary>
     /// Gets or sets the first name of the person.
     /// </summary>
-    public string FirstName { get; set; } // First name of the person.
+    public string FirstName { get; init; } // First name of the person.
 
     /// <summary>
     /// Gets or sets the last name of the person.
     /// </summary>
-    public string LastName { get; set; } // Last name of the person.
+    public string LastName { get; init; } // Last name of the person.
 
     /// <summary>
     /// Gets or sets the age of the person.
     /// </summary>
-    public int Age { get; set; } // Age of the person.
+    public int Age { get; init; } // Age of the person.
 
     /// <summary>
     /// Gets or sets the email address of the person.
     /// </summary>
-    public string Email { get; set; } // Email address of the person.
+    public string Email { get; init; } // Email address of the person.
 }

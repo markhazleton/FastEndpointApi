@@ -1,16 +1,17 @@
 using FastEndpointApi.services;
 using FastEndpoints;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace FastEndpointApi.endpoints.read;
 
 /// <summary>
 /// Read persons endpoint.
 /// </summary>
-/// <param name="personService"></param>
-public class ReadPersonsEndpoint(IPersonService personService) : Endpoint<ReadPersonRequest, List<PersonResponse>>
+public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithoutRequest<List<PersonResponse>>
 {
+
     /// <summary>
-    /// configures the endpoint.
+    /// Configures the endpoint.
     /// </summary>
     public override void Configure()
     {
@@ -19,25 +20,28 @@ public class ReadPersonsEndpoint(IPersonService personService) : Endpoint<ReadPe
     }
 
     /// <summary>
-    /// handles the read person request asynchronously.
+    /// Handles the read person request asynchronously.
     /// </summary>
-    /// <param name="req"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
-    public override Task HandleAsync(ReadPersonRequest req, CancellationToken ct)
+    public override async Task HandleAsync(CancellationToken ct)
     {
-        List<PersonResponse> personResponses = new();
-        var personList = personService.ReadPersons();
-        foreach (var person in personList)
-        {
-            personResponses.Add(new PersonResponse()
+        var baseUrl = HttpContext.Request.GetDisplayUrl();
+
+        var personResponses = personService.ReadPersons()
+            .Select(person => new PersonResponse
             {
                 FullName = $"{person.FirstName} {person.LastName}",
                 IsOver18 = person.Age > 18,
-                PersonId = person.Id.ToString()
-            }
-            );
-        }
-        return SendAsync(personResponses, cancellation: ct);
+                PersonId = person.Id.ToString(),
+                Links = 
+                [
+                    new LinkResource { Rel = "self", Href = $"{baseUrl}/{person.Id}", Method = "GET" },
+                    new LinkResource { Rel = "delete", Href = $"{baseUrl}/{person.Id}", Method = "DELETE" }
+                ]
+            })
+            .ToList();
+
+        await SendAsync(personResponses, cancellation: ct);
     }
 }

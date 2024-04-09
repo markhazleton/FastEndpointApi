@@ -1,0 +1,38 @@
+###
+GET https://localhost:7160/api/person
+
+###
+GET https://localhost:7160/api/person/b6b21a2b-f605-434a-a973-d43ddef5d38c
+
+###
+POST https://localhost:7160/api/person/create
+Content-Type: application/json
+{
+  "firstName": "Mark",
+  "lastName": "Hazelton",
+  "age": 35,
+  "email": "mark@frogsfolly.com"}
+
+###
+POST https://localhost:7160/api/person/create
+Content-Type: application/json
+{
+  "firstName": "Lesley",
+  "lastName": "Hazelton",
+  "age": 36,
+  "email": "lesley@frogsfolly.com"}
+
+###
+PUT https://localhost:7160/api/person/update/f183fdae-90a6-4178-8b86-61ffc2b68b6b
+Content-Type: application/json
+{
+  "id": "f183fdae-90a6-4178-8b86-61ffc2b68b6b",
+  "firstName": "Lesley",
+  "lastName": "Hazleton",
+  "age": 36,
+  "email": "lesley@texecon.com"}
+
+ ###
+ DELETE https://localhost:7160/api/person/b6b21a2b-f605-434a-a973-d43ddef5d38c
+
+ ###

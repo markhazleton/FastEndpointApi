@@ -15,6 +15,7 @@ public class CreatePersonMapper : Mapper<CreatePersonRequest, PersonResponse, Pe
     /// <returns></returns>
     public override PersonEntity ToEntity(CreatePersonRequest r) => new()
     {
+        Id = Guid.NewGuid(),
         FirstName = r.FirstName,
         LastName = r.LastName,
         Age = r.Age,

@@ -14,6 +14,12 @@ public class ReadPersonEndpoint(IPersonService personService) : Endpoint<ReadPer
     public override Task HandleAsync(ReadPersonRequest req, CancellationToken ct)
     {
         var person = personService.ReadPerson(req.PersonId);
+
+        if (person == null)
+        {
+            return SendNotFoundAsync(cancellation: ct);
+        }
+
         Response = new PersonResponse
         {
             FullName = $"{person.FirstName} {person.LastName}",

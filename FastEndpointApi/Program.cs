@@ -10,5 +10,9 @@ builder.Services.AddSingleton<IPersonService, PersonService>();
 var app = builder.Build();
 app.UseFastEndpoints();
 app.UseSwaggerGen();
-app.MapGet("/", () => Results.Redirect("/swagger"));
+app.MapGet("/", context => 
+{ 
+    context.Response.Redirect("/swagger");
+    return Task.CompletedTask;
+});
 app.Run();
