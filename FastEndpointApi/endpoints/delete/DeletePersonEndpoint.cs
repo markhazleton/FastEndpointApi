@@ -20,7 +20,7 @@ public class DeletePersonEndpoint : EndpointWithoutRequest
     /// </summary>
     public override void Configure()
     {
-        Delete("/api/person/{Id}");
+        Delete("/person/{Id}");
         AllowAnonymous(); // or use [Authorize] if needed
     }
 

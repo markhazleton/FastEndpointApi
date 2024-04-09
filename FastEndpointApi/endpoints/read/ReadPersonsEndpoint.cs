@@ -15,7 +15,7 @@ public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithout
     /// </summary>
     public override void Configure()
     {
-        Get("/api/person/");
+        Get("/person/");
         AllowAnonymous();
     }
 

@@ -1,11 +1,11 @@
 ###
-GET https://localhost:7160/api/person
+GET https://localhost:7160/person
 
 ###
-GET https://localhost:7160/api/person/b6b21a2b-f605-434a-a973-d43ddef5d38c
+GET https://localhost:7160/person/3a8d4319-7c29-4805-b61e-28210f7d33b9
 
 ###
-POST https://localhost:7160/api/person/create
+POST https://localhost:7160/person/create
 Content-Type: application/json
 {
   "firstName": "Mark",
@@ -14,7 +14,7 @@ Content-Type: application/json
   "email": "mark@frogsfolly.com"}
 
 ###
-POST https://localhost:7160/api/person/create
+POST https://localhost:7160/person/create
 Content-Type: application/json
 {
   "firstName": "Lesley",
@@ -23,7 +23,7 @@ Content-Type: application/json
   "email": "lesley@frogsfolly.com"}
 
 ###
-PUT https://localhost:7160/api/person/update/f183fdae-90a6-4178-8b86-61ffc2b68b6b
+PUT https://localhost:7160/person/update/f183fdae-90a6-4178-8b86-61ffc2b68b6b
 Content-Type: application/json
 {
   "id": "f183fdae-90a6-4178-8b86-61ffc2b68b6b",
@@ -33,6 +33,6 @@ Content-Type: application/json
   "email": "lesley@texecon.com"}
 
  ###
- DELETE https://localhost:7160/api/person/b6b21a2b-f605-434a-a973-d43ddef5d38c
+ DELETE https://localhost:7160/person/b6b21a2b-f605-434a-a973-d43ddef5d38c
 
  ###
