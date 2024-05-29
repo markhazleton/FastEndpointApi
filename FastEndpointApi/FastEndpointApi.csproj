@@ -11,9 +11,9 @@
 		<AssemblyVersion>8.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddHH)).$([System.DateTime]::UtcNow.ToString(mmss))</AssemblyVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="FastEndpoints" Version="5.24.0" />
-		<PackageReference Include="FastEndpoints.Attributes" Version="5.24.0" />
-		<PackageReference Include="FastEndpoints.Swagger" Version="5.24.0" />
-		<PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="5.24.0" />
+		<PackageReference Include="FastEndpoints" Version="5.25.0" />
+		<PackageReference Include="FastEndpoints.Attributes" Version="5.25.0" />
+		<PackageReference Include="FastEndpoints.Swagger" Version="5.25.0" />
+		<PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="5.25.0" />
 	</ItemGroup>
 </Project>
