@@ -34,7 +34,7 @@ public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithout
                 FullName = $"{person.FirstName} {person.LastName}",
                 IsOver18 = person.Age > 18,
                 PersonId = person.Id.ToString(),
-                Links = 
+                Links =
                 [
                     new LinkResource { Rel = "self", Href = $"{baseUrl}/{person.Id}", Method = "GET" },
                     new LinkResource { Rel = "delete", Href = $"{baseUrl}/{person.Id}", Method = "DELETE" }

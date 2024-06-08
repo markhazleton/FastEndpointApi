@@ -1,5 +1,5 @@
-using FastEndpoints;
 using FastEndpointApi.services;
+using FastEndpoints;
 
 namespace FastEndpointApi.endpoints.delete;
 

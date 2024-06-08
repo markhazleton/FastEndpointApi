@@ -56,7 +56,7 @@
                     Email = updatedPerson.Email
                 };
                 _people.Add(newPerson);
-               return newPerson;
+                return newPerson;
             }
             return null;
         }

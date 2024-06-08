@@ -20,7 +20,7 @@ var app = builder.Build();
 app.UseFastEndpoints(c =>
 {
     c.Endpoints.ShortNames = true;
-}); 
+});
 app.UseSwaggerGen();
 app.MapApiClientEndpoint("/cs-client", c =>
 {
@@ -35,8 +35,8 @@ o => //endpoint customization settings
     o.ExcludeFromDescription(); //hides this endpoint from swagger docs
 });
 
-app.MapGet("/", context => 
-{ 
+app.MapGet("/", context =>
+{
     context.Response.Redirect("/swagger");
     return Task.CompletedTask;
 });
