@@ -6,6 +6,7 @@ namespace FastEndpointApi.endpoints.read;
 
 public class ReadPersonEndpoint(IPersonService personService) : Endpoint<ReadPersonRequest, PersonResponse>
 {
+    /// <inheritdoc/>
     public override void Configure()
     {
         Get("/person/{PersonId}"); // Using route parameter for PersonId.

@@ -19,5 +19,5 @@ public class PersonResponse
     /// </summary>
     public string PersonId { get; internal set; }
     // New HATEOAS links property
-    public List<LinkResource> Links { get; set; } = new List<LinkResource>();
+    public List<LinkResource> Links { get; set; } = [];
 }
