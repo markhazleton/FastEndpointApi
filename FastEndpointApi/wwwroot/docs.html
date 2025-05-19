@@ -1,54 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Documentation | FastEndpoints Demo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-  <style>
-    body { background: #f8f9fa; }
-    .doc-container { max-width: 900px; margin: 2em auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 2.5em 2em 2em 2em; }
-    .doc-header { background: linear-gradient(90deg, #0d6efd 0%, #6ea8fe 100%); color: #fff; border-radius: 12px 12px 0 0; padding: 2em 2em 1.5em 2em; margin: -2.5em -2em 2em -2em; box-shadow: 0 2px 8px rgba(13,110,253,0.08); }
-    .doc-header h1 { font-size: 2.2em; font-weight: 700; }
-    .doc-header .lead { color: #e3eafc; }
-    .doc-nav { margin-bottom: 2em; }
-    .doc-nav .btn { margin-right: 0.7em; margin-bottom: 0.5em; }
-    .section-title { margin-top: 2em; margin-bottom: 1em; font-size: 1.3em; font-weight: 600; }
-    pre, code { background: #f6f8fa; border-radius: 6px; padding: 0.5em; }
-    .table { margin-bottom: 2em; }
-    .bi { vertical-align: -.125em; }
-  </style>
-</head>
-<body>
-  <div class="doc-container">
-    <div class="doc-header">
-      <h1><i class="bi bi-journal-code"></i> FastEndpoints: A Developer's Guide</h1>
-      <p class="lead">A hands-on exploration of FastEndpoints for streamlined, high-performance ASP.NET Core API development.<br><span class="fw-light">By Mark Hazleton</span></p>
-      <div class="doc-nav">
-        <a href="/index.html" class="btn btn-light btn-lg fw-bold"><i class="bi bi-house-door"></i> Home</a>
-        <a href="/swagger/index.html" class="btn btn-outline-primary btn-lg fw-bold" target="_blank"><i class="bi bi-diagram-3"></i> Swagger UI</a>
-        <a href="https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html" class="btn btn-primary btn-lg fw-bold" target="_blank"><i class="bi bi-file-earmark-text"></i> Article</a>
-        <a href="https://github.com/MarkHazleton/FastEndpointDemo" class="btn btn-dark btn-lg fw-bold" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Documentation | FastEndpoints Demo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: #f8f9fa;
+      }
+      .doc-container {
+        max-width: 900px;
+        margin: 2em auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        padding: 2.5em 2em 2em 2em;
+      }
+      .doc-header {
+        background: linear-gradient(90deg, #0d6efd 0%, #6ea8fe 100%);
+        color: #fff;
+        border-radius: 12px 12px 0 0;
+        padding: 2em 2em 1.5em 2em;
+        margin: -2.5em -2em 2em -2em;
+        box-shadow: 0 2px 8px rgba(13, 110, 253, 0.08);
+      }
+      .doc-header h1 {
+        font-size: 2.2em;
+        font-weight: 700;
+      }
+      .doc-header .lead {
+        color: #e3eafc;
+      }
+      .doc-nav {
+        margin-bottom: 2em;
+      }
+      .doc-nav .btn {
+        margin-right: 0.7em;
+        margin-bottom: 0.5em;
+      }
+      .section-title {
+        margin-top: 2em;
+        margin-bottom: 1em;
+        font-size: 1.3em;
+        font-weight: 600;
+      }
+      pre,
+      code {
+        background: #f6f8fa;
+        border-radius: 6px;
+        padding: 0.5em;
+      }
+      .table {
+        margin-bottom: 2em;
+      }
+      .bi {
+        vertical-align: -0.125em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="doc-container">
+      <div class="doc-header">
+        <h1>
+          <i class="bi bi-journal-code"></i> FastEndpoints: A Developer's Guide
+        </h1>
+        <p class="lead">
+          A hands-on exploration of FastEndpoints for streamlined,
+          high-performance ASP.NET Core API development.<br /><span
+            class="fw-light"
+            >By Mark Hazleton</span
+          >
+        </p>
+        <div class="doc-nav">
+          <a href="/index.html" class="btn btn-light btn-lg fw-bold"
+            ><i class="bi bi-house-door"></i> Home</a
+          >
+          <a
+            href="/swagger/index.html"
+            class="btn btn-outline-primary btn-lg fw-bold"
+            target="_blank"
+            ><i class="bi bi-diagram-3"></i> Swagger UI</a
+          >
+          <a
+            href="https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html"
+            class="btn btn-primary btn-lg fw-bold"
+            target="_blank"
+            ><i class="bi bi-file-earmark-text"></i> Article</a
+          >
+          <a
+            href="https://github.com/MarkHazleton/FastEndpointDemo"
+            class="btn btn-dark btn-lg fw-bold"
+            target="_blank"
+            ><i class="bi bi-github"></i> GitHub</a
+          >
+        </div>
       </div>
-    </div>
-    <div class="mt-4">
-      <!-- README CONTENT START -->
-      <h2 class="section-title"><i class="bi bi-lightbulb"></i> What is FastEndpoints?</h2>
-      <p>FastEndpoints is a lightweight REST API framework for ASP.NET that implements the REPR (Request-Endpoint-Response) Pattern. It's designed to be a developer-friendly alternative to Minimal APIs and MVC Controllers, significantly reducing boilerplate code while maintaining high performance.</p>
-      <h2 class="section-title"><i class="bi bi-stars"></i> Key Features</h2>
-      <ul>
-        <li><strong>CRUD Operations</strong>: Complete set of endpoints for creating, reading, updating, and deleting Person entities</li>
-        <li><strong>In-Memory Data Store</strong>: Simple in-memory collection for demo persistence</li>
-        <li><strong>Service Layer</strong>: Clean abstraction of business logic</li>
-        <li><strong>Smart Data Mapping</strong>: Built-in mapping between models and entities</li>
-        <li><strong>Dependency Injection</strong>: Practical DI usage</li>
-        <li><strong>Reusable Base Classes</strong>: Promotes code reuse</li>
-        <li><strong>HATEOAS Links</strong>: Hypermedia links in API responses</li>
-        <li><strong>Interactive Documentation</strong>: Swagger/OpenAPI integration</li>
-      </ul>
-      <h2 class="section-title"><i class="bi bi-diagram-3"></i> Project Structure</h2>
-      <pre><code>FastEndpointApi/
+      <div class="mt-4">
+        <!-- README CONTENT START -->
+        <h2 class="section-title">
+          <i class="bi bi-lightbulb"></i> What is FastEndpoints?
+        </h2>
+        <p>
+          FastEndpoints is a lightweight REST API framework for ASP.NET that
+          implements the REPR (Request-Endpoint-Response) Pattern. It's designed
+          to be a developer-friendly alternative to Minimal APIs and MVC
+          Controllers, significantly reducing boilerplate code while maintaining
+          high performance.
+        </p>
+        <h2 class="section-title"><i class="bi bi-stars"></i> Key Features</h2>
+        <ul>
+          <li>
+            <strong>CRUD Operations</strong>: Complete set of endpoints for
+            creating, reading, updating, and deleting Person entities
+          </li>
+          <li>
+            <strong>In-Memory Data Store</strong>: Simple in-memory collection
+            for demo persistence
+          </li>
+          <li>
+            <strong>Service Layer</strong>: Clean abstraction of business logic
+          </li>
+          <li>
+            <strong>Smart Data Mapping</strong>: Built-in mapping between models
+            and entities
+          </li>
+          <li><strong>Dependency Injection</strong>: Practical DI usage</li>
+          <li><strong>Reusable Base Classes</strong>: Promotes code reuse</li>
+          <li>
+            <strong>HATEOAS Links</strong>: Hypermedia links in API responses
+          </li>
+          <li>
+            <strong>Interactive Documentation</strong>: Swagger/OpenAPI
+            integration
+          </li>
+        </ul>
+        <h2 class="section-title">
+          <i class="bi bi-diagram-3"></i> Project Structure
+        </h2>
+        <pre><code>FastEndpointApi/
 ├── Program.cs                       # Application entry point and configuration
 ├── endpoints/                       # All API endpoints
 │   ├── LinkResource.cs              # HATEOAS link representation
@@ -72,78 +169,190 @@
     ├── IPersonService.cs            # Service interface
     ├── PersonEntity.cs              # Domain model
     └── PersonService.cs             # Service implementation</code></pre>
-      <h2 class="section-title"><i class="bi bi-rocket"></i> Getting Started</h2>
-      <ol>
-        <li>Clone this repository:<br><code>git clone https://github.com/MarkHazleton/FastEndpointDemo.git</code></li>
-        <li>Build and run the project:<br><code>cd FastEndpointApi<br>dotnet build<br>dotnet run</code></li>
-        <li>Open <a href="/swagger/index.html" target="_blank">Swagger UI</a> to explore the API.</li>
-      </ol>
-      <h2 class="section-title"><i class="bi bi-link-45deg"></i> API Endpoints</h2>
-      <table class="table table-bordered table-striped">
-        <thead class="table-light">
-          <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><span class="badge bg-success">POST</span></td><td><code>/person</code></td><td>Create a new person</td></tr>
-          <tr><td><span class="badge bg-primary">GET</span></td><td><code>/person/{id}</code></td><td>Get a person by ID</td></tr>
-          <tr><td><span class="badge bg-primary">GET</span></td><td><code>/person</code></td><td>Get all persons</td></tr>
-          <tr><td><span class="badge bg-warning text-dark">PUT</span></td><td><code>/person/{id}</code></td><td>Update a person</td></tr>
-          <tr><td><span class="badge bg-danger">DELETE</span></td><td><code>/person/{id}</code></td><td>Delete a person</td></tr>
-        </tbody>
-      </table>
-      <h2 class="section-title"><i class="bi bi-gear"></i> Implementation Details</h2>
-      <ul>
-        <li><strong>Data Seeding</strong>: 5 unique people seeded using <a href="https://github.com/bchavez/Bogus" target="_blank">Bogus</a></li>
-        <li><strong>Global Error Handling</strong>: Consistent JSON error responses</li>
-        <li><strong>HATEOAS</strong>: Hypermedia links in responses</li>
-        <li><strong>Service Layer</strong>: In-memory CRUD logic</li>
-      </ul>
-      <h2 class="section-title"><i class="bi bi-lightning-charge"></i> Why Use FastEndpoints?</h2>
-      <ul>
-        <li>Clean architecture and REPR pattern</li>
-        <li>High performance, minimal boilerplate</li>
-        <li>Auto-discovery of endpoints</li>
-        <li>Built-in validation and security</li>
-        <li>Swagger/OpenAPI integration</li>
-      </ul>
-      <h2 class="section-title"><i class="bi bi-people"></i> Contact & Support</h2>
-      <p>Questions or issues? <a href="https://github.com/MarkHazleton/FastEndpointDemo/issues" target="_blank">Create an issue on GitHub</a>.</p>
-      <h2 class="section-title"><i class="bi bi-journal-richtext"></i> Additional Resources</h2>
-      <ul>
-        <li><a href="https://fast-endpoints.com/" target="_blank">Official FastEndpoints Documentation</a></li>
-        <li><a href="https://github.com/FastEndpoints/FastEndpoints" target="_blank">FastEndpoints GitHub</a></li>
-        <li><a href="https://www.nuget.org/packages/FastEndpoints/" target="_blank">NuGet Package</a></li>
-        <li><a href="https://www.nuget.org/packages/FastEndpoints.Swagger/" target="_blank">Swagger Support</a></li>
-      </ul>
-      <h2 class="section-title"><i class="bi bi-book"></i> Glossary</h2>
-      <ul>
-        <li><strong>REPR Pattern</strong>: Request-Endpoint-Response Pattern</li>
-        <li><strong>DTO</strong>: Data Transfer Object</li>
-        <li><strong>REST</strong>: Representational State Transfer</li>
-        <li><strong>HATEOAS</strong>: Hypermedia as the Engine of Application State</li>
-        <li><strong>Swagger/OpenAPI</strong>: API documentation and exploration tools</li>
-        <li><strong>Endpoint</strong>: A specific URL for API access</li>
-        <li><strong>Dependency Injection (DI)</strong>: Supplying dependencies to objects</li>
-        <li><strong>Mapper</strong>: Transforms data between types</li>
-        <li><strong>Entity</strong>: Domain model class</li>
-        <li><strong>Minimal API</strong>: Simplified HTTP APIs in ASP.NET Core</li>
-        <li><strong>Fluent Validation</strong>: Validation library for .NET</li>
-        <li><strong>NuGet Package</strong>: .NET package manager</li>
-        <li><strong>ASP.NET Core</strong>: Modern, cross-platform web framework</li>
-      </ul>
-      <h2 class="section-title"><i class="bi bi-cloud-arrow-up"></i> CI/CD</h2>
-      <p>This project uses GitHub Actions for automated build, test, and deployment to Azure Web Apps. See <code>.github/workflows/main_fastendpointsdemo.yml</code> for details.</p>
-      <h2 class="section-title"><i class="bi bi-display"></i> Visual Demo: Interactive Web UI</h2>
-      <ul>
-        <li>Create, read, update, and delete people</li>
-        <li>View HATEOAS links</li>
-        <li>Swagger & article links</li>
-        <li>Modern Bootstrap UI</li>
-      </ul>
-      <div class="alert alert-info mt-4"><i class="bi bi-info-circle"></i> <strong>Tip:</strong> Use the web UI at <a href="/index.html">/index.html</a> to interact with the API visually!</div>
-      <!-- README CONTENT END -->
+        <h2 class="section-title">
+          <i class="bi bi-rocket"></i> Getting Started
+        </h2>
+        <ol>
+          <li>
+            Clone this repository:<br /><code
+              >git clone
+              https://github.com/MarkHazleton/FastEndpointDemo.git</code
+            >
+          </li>
+          <li>
+            Build and run the project:<br /><code
+              >cd FastEndpointApi<br />dotnet build<br />dotnet run</code
+            >
+          </li>
+          <li>
+            Open <a href="/swagger/index.html" target="_blank">Swagger UI</a> to
+            explore the API.
+          </li>
+        </ol>
+        <h2 class="section-title">
+          <i class="bi bi-link-45deg"></i> API Endpoints
+        </h2>
+        <table class="table table-bordered table-striped">
+          <thead class="table-light">
+            <tr>
+              <th>Method</th>
+              <th>Endpoint</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge bg-success">POST</span></td>
+              <td><code>/person</code></td>
+              <td>Create a new person</td>
+            </tr>
+            <tr>
+              <td><span class="badge bg-primary">GET</span></td>
+              <td><code>/person/{id}</code></td>
+              <td>Get a person by ID</td>
+            </tr>
+            <tr>
+              <td><span class="badge bg-primary">GET</span></td>
+              <td><code>/person</code></td>
+              <td>Get all persons</td>
+            </tr>
+            <tr>
+              <td><span class="badge bg-warning text-dark">PUT</span></td>
+              <td><code>/person/{id}</code></td>
+              <td>Update a person</td>
+            </tr>
+            <tr>
+              <td><span class="badge bg-danger">DELETE</span></td>
+              <td><code>/person/{id}</code></td>
+              <td>Delete a person</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 class="section-title">
+          <i class="bi bi-gear"></i> Implementation Details
+        </h2>
+        <ul>
+          <li>
+            <strong>Data Seeding</strong>: 5 unique people seeded using
+            <a href="https://github.com/bchavez/Bogus" target="_blank">Bogus</a>
+          </li>
+          <li>
+            <strong>Global Error Handling</strong>: Consistent JSON error
+            responses
+          </li>
+          <li><strong>HATEOAS</strong>: Hypermedia links in responses</li>
+          <li><strong>Service Layer</strong>: In-memory CRUD logic</li>
+        </ul>
+        <h2 class="section-title">
+          <i class="bi bi-lightning-charge"></i> Why Use FastEndpoints?
+        </h2>
+        <ul>
+          <li>Clean architecture and REPR pattern</li>
+          <li>High performance, minimal boilerplate</li>
+          <li>Auto-discovery of endpoints</li>
+          <li>Built-in validation and security</li>
+          <li>Swagger/OpenAPI integration</li>
+        </ul>
+        <h2 class="section-title">
+          <i class="bi bi-people"></i> Contact & Support
+        </h2>
+        <p>
+          Questions or issues?
+          <a
+            href="https://github.com/MarkHazleton/FastEndpointDemo/issues"
+            target="_blank"
+            >Create an issue on GitHub</a
+          >.
+        </p>
+        <h2 class="section-title">
+          <i class="bi bi-journal-richtext"></i> Additional Resources
+        </h2>
+        <ul>
+          <li>
+            <a href="https://fast-endpoints.com/" target="_blank"
+              >Official FastEndpoints Documentation</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://github.com/FastEndpoints/FastEndpoints"
+              target="_blank"
+              >FastEndpoints GitHub</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.nuget.org/packages/FastEndpoints/"
+              target="_blank"
+              >NuGet Package</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.nuget.org/packages/FastEndpoints.Swagger/"
+              target="_blank"
+              >Swagger Support</a
+            >
+          </li>
+        </ul>
+        <h2 class="section-title"><i class="bi bi-book"></i> Glossary</h2>
+        <ul>
+          <li>
+            <strong>REPR Pattern</strong>: Request-Endpoint-Response Pattern
+          </li>
+          <li><strong>DTO</strong>: Data Transfer Object</li>
+          <li><strong>REST</strong>: Representational State Transfer</li>
+          <li>
+            <strong>HATEOAS</strong>: Hypermedia as the Engine of Application
+            State
+          </li>
+          <li>
+            <strong>Swagger/OpenAPI</strong>: API documentation and exploration
+            tools
+          </li>
+          <li><strong>Endpoint</strong>: A specific URL for API access</li>
+          <li>
+            <strong>Dependency Injection (DI)</strong>: Supplying dependencies
+            to objects
+          </li>
+          <li><strong>Mapper</strong>: Transforms data between types</li>
+          <li><strong>Entity</strong>: Domain model class</li>
+          <li>
+            <strong>Minimal API</strong>: Simplified HTTP APIs in ASP.NET Core
+          </li>
+          <li>
+            <strong>Fluent Validation</strong>: Validation library for .NET
+          </li>
+          <li><strong>NuGet Package</strong>: .NET package manager</li>
+          <li>
+            <strong>ASP.NET Core</strong>: Modern, cross-platform web framework
+          </li>
+        </ul>
+        <h2 class="section-title">
+          <i class="bi bi-cloud-arrow-up"></i> CI/CD
+        </h2>
+        <p>
+          This project uses GitHub Actions for automated build, test, and
+          deployment to Azure Web Apps. See
+          <code>.github/workflows/main_fastendpointsdemo.yml</code> for details.
+        </p>
+        <h2 class="section-title">
+          <i class="bi bi-display"></i> Visual Demo: Interactive Web UI
+        </h2>
+        <ul>
+          <li>Create, read, update, and delete people</li>
+          <li>View HATEOAS links</li>
+          <li>Swagger & article links</li>
+          <li>Modern Bootstrap UI</li>
+        </ul>
+        <div class="alert alert-info mt-4">
+          <i class="bi bi-info-circle"></i> <strong>Tip:</strong> Use the web UI
+          at <a href="/index.html">/index.html</a> to interact with the API
+          visually!
+        </div>
+        <!-- README CONTENT END -->
+      </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
