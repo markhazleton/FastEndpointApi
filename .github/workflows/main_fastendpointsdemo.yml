@@ -17,13 +17,29 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.x'
-          include-prerelease: true
+          dotnet-version: "9.x"
+
+      # Add cache for NuGet packages
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/FastEndpointApi.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --no-restore
+
+      # Run tests if they exist
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal
+        continue-on-error: true # Optional: set to false if tests must pass
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
@@ -38,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -48,19 +64,30 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_620C3DE7E68F4C6A93F9E2D7AC5E0373 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_3A61B5A2ACF6481AB9E362EF83517807 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_30EAEBAA6E54499E952D8CE1C7AE024E }}
+          audience: api://AzureADTokenExchange # Added for better security
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'FastEndpointsDemo'
-          slot-name: 'Production'
+          app-name: "FastEndpointsDemo"
+          slot-name: "Production"
           package: .
-          
+
+      # Optional: Add a post-deployment health check
+      - name: Health check
+        run: |
+          sleep 30  # Wait for deployment to complete
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://fastendpointsdemo.azurewebsites.net/health || echo "Failed")
+          echo "Health check status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "Warning: Health check returned non-200 status code: $STATUS"
+          fi
+        continue-on-error: true # Health check shouldn't fail the workflow
