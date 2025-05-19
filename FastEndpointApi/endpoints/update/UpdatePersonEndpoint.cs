@@ -15,7 +15,7 @@ namespace FastEndpointApi.endpoints.update
         /// </summary>
         public override void Configure()
         {
-            Put("/person/update/{PersonId}"); // Using route parameter for PersonId.
+            Put("/person/update/{Id}"); // Using route parameter for Id instead of PersonId
             AllowAnonymous();
         }
 
@@ -27,17 +27,19 @@ namespace FastEndpointApi.endpoints.update
         /// <returns></returns>
         public override Task HandleAsync(UpdatePersonRequest req, CancellationToken ct)
         {
-            var person = personService.UpdatePerson(req.PersonId, new()
+            var person = personService.UpdatePerson(req.Id.ToString(), new PersonEntity
             {
                 FirstName = req.FirstName,
                 LastName = req.LastName,
                 Age = req.Age,
                 Email = req.Email
             });
+
             if (person == null)
             {
                 return SendNotFoundAsync(cancellation: ct);
             }
+
             Response = new PersonResponse
             {
                 FullName = $"{person.FirstName} {person.LastName}",

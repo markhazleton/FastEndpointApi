@@ -8,27 +8,9 @@ namespace FastEndpointApi.endpoints.update;
 public class UpdatePersonRequest : CreatePersonRequest
 {
     /// <summary>
-    /// Gets or sets the first name of the person.
+    /// Gets or sets the ID of the person to update.
     /// </summary>
-    public string FirstName { get; set; }
+    public int Id { get; set; }
 
-    /// <summary>
-    /// Gets or sets the last name of the person.
-    /// </summary>
-    public string LastName { get; set; }
-
-    /// <summary>
-    /// Gets or sets the age of the person.
-    /// </summary>
-    public int Age { get; set; }
-
-    /// <summary>
-    /// Gets or sets the email of the person.
-    /// </summary>
-    public string Email { get; set; }
-
-    /// <summary>
-    /// Gets or sets the ID of the person.
-    /// </summary>
-    public string PersonId { get; set; }
+    // Note: FirstName, LastName, and Age properties are inherited from CreatePersonRequest
 }
