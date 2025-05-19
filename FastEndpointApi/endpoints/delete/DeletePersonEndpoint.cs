@@ -4,7 +4,7 @@ using FastEndpoints;
 namespace FastEndpointApi.endpoints.delete;
 
 /// <summary>
-/// Represents the endpoint for deleting a person by their ID.
+/// Endpoint for deleting a person by ID.
 /// </summary>
 public class DeletePersonEndpoint : EndpointWithoutRequest
 {
@@ -21,7 +21,7 @@ public class DeletePersonEndpoint : EndpointWithoutRequest
     public override void Configure()
     {
         Delete("/person/{Id}");
-        AllowAnonymous(); // or use [Authorize] if needed
+        AllowAnonymous();
     }
 
     /// <summary>

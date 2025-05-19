@@ -7,13 +7,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <Deterministic>false</Deterministic>
-    <SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</SourceRevisionId>
-    <AssemblyVersion>8.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddHH)).$([System.DateTime]::UtcNow.ToString(mmss))</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FastEndpoints" Version="5.29.0.8-beta" />
-    <PackageReference Include="FastEndpoints.Attributes" Version="5.29.0.8-beta" />
-    <PackageReference Include="FastEndpoints.Swagger" Version="5.29.0.8-beta" />
-    <PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="5.29.0.8-beta" />
+    <PackageReference Include="FastEndpoints" Version="6.1.0" />
+    <PackageReference Include="FastEndpoints.Attributes" Version="6.1.0" />
+    <PackageReference Include="FastEndpoints.Swagger" Version="6.1.0" />
+    <PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="6.1.0" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
   </ItemGroup>
 </Project>

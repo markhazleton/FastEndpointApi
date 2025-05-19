@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Http.Extensions;
 
 namespace FastEndpointApi.endpoints.read;
 
+/// <summary>
+/// Endpoint for reading a person by ID.
+/// </summary>
 public class ReadPersonEndpoint(IPersonService personService) : Endpoint<ReadPersonRequest, PersonResponse>
 {
     /// <inheritdoc/>
