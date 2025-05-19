@@ -21,8 +21,14 @@ This guide introduces you to the FastEndpoints framework through a practical Per
     - [Running the Project](#running-the-project)
   - [API Endpoints](#api-endpoints)
   - [Implementation Details](#implementation-details)
+    - [Data Seeding](#data-seeding)
     - [Basic Configuration](#basic-configuration)
     - [Endpoint Implementation](#endpoint-implementation)
+      - [Create Person](#create-person)
+      - [Read Person by ID](#read-person-by-id)
+      - [Read All Persons](#read-all-persons)
+      - [Update Person](#update-person)
+      - [Delete Person](#delete-person)
     - [Request and Response Models](#request-and-response-models)
     - [Mapping with FastEndpoints](#mapping-with-fastendpoints)
     - [Service Layer](#service-layer)
@@ -33,6 +39,8 @@ This guide introduces you to the FastEndpoints framework through a practical Per
   - [Contact \& Support](#contact--support)
   - [Additional Resources](#additional-resources)
   - [Glossary of Terms](#glossary-of-terms)
+  - [Continuous Integration \& Deployment (CI/CD)](#continuous-integration--deployment-cicd)
+  - [Visual Demo: Interactive Web UI](#visual-demo-interactive-web-ui)
 
 ## What is FastEndpoints?
 
@@ -126,13 +134,13 @@ Once the application is running, you can use Swagger to test all the endpoints w
 
 Let's explore the available endpoints in our Person Management API:
 
-| Method | Endpoint              | Description                   |
-|--------|----------------------|-------------------------------|
-| POST   | `/person/create`     | Create a new person          |
-| GET    | `/person/{id}`       | Get a person by ID           |
-| GET    | `/persons`           | Get all persons              |
-| PUT    | `/person/{id}`       | Update a person              |
-| DELETE | `/person/{id}`       | Delete a person              |
+| Method | Endpoint         | Description            |
+|--------|-----------------|------------------------|
+| POST   | `/person`       | Create a new person    |
+| GET    | `/person/{id}`  | Get a person by ID     |
+| GET    | `/person`       | Get all persons        |
+| PUT    | `/person/{id}`  | Update a person        |
+| DELETE | `/person/{id}`  | Delete a person        |
 
 When you run the application and navigate to the Swagger UI, you'll be able to test each of these endpoints interactively. This makes it easy to understand how the API works and see the HATEOAS links in action.
 
@@ -140,9 +148,13 @@ When you run the application and navigate to the Swagger UI, you'll be able to t
 
 Let's dive into how this API is built using FastEndpoints. Understanding these patterns will help you quickly adapt the concepts to your own projects.
 
+### Data Seeding
+
+On startup, the application seeds 5 unique people using the [Bogus](https://github.com/bchavez/Bogus) library. This provides sample data for immediate testing and exploration.
+
 ### Basic Configuration
 
-First, let's look at how FastEndpoints is configured in the `Program.cs` file - it's remarkably simple:
+FastEndpoints is configured in the `Program.cs` file:
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -158,7 +170,23 @@ builder.Services.SwaggerDocument(o =>
 });
 builder.Services.AddSingleton<IPersonService, PersonService>();
 
-// ...
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "application/json";
+        var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+        await context.Response.WriteAsJsonAsync(new { error = error?.Message ?? "An error occurred." });
+    });
+});
 
 app.UseFastEndpoints(c =>
 {
@@ -170,16 +198,14 @@ app.UseSwaggerUi();
 
 ### Endpoint Implementation
 
-One of the core concepts in FastEndpoints is the implementation of individual endpoints that follow the REPR pattern. Let's look at how the create person endpoint is implemented:
+#### Create Person
 
 ```csharp
-// From FastEndpointApi/endpoints/create/CreatePersonEndpoint.cs
-public class CreatePersonEndpoint(IPersonService _personService) 
-    : Endpoint<CreatePersonRequest, PersonResponse, CreatePersonMapper>
+public class CreatePersonEndpoint(IPersonService _personService) : Endpoint<CreatePersonRequest, PersonResponse, CreatePersonMapper>
 {
     public override void Configure()
     {
-        Post("/person/create");
+        Post("/person");
         AllowAnonymous();
     }
 
@@ -193,14 +219,133 @@ public class CreatePersonEndpoint(IPersonService _personService)
 }
 ```
 
-### Request and Response Models
-
-FastEndpoints encourages the use of dedicated request and response models for each endpoint. This approach promotes clean separation of concerns and type safety throughout your API.
-
-Here's how a request model is defined to capture input data:
+#### Read Person by ID
 
 ```csharp
-// From FastEndpointApi/endpoints/create/CreatePersonRequest.cs
+public class ReadPersonEndpoint(IPersonService personService) : Endpoint<ReadPersonRequest, PersonResponse>
+{
+    public override void Configure()
+    {
+        Get("/person/{id}");
+        AllowAnonymous();
+    }
+
+    public override Task HandleAsync(ReadPersonRequest req, CancellationToken ct)
+    {
+        var person = personService.ReadPerson(req.Id);
+        if (person == null)
+            return SendNotFoundAsync(cancellation: ct);
+        var baseUrl = HttpContext.Request.GetDisplayUrl();
+        Response = new PersonResponse
+        {
+            FullName = $"{person.FirstName} {person.LastName}",
+            IsOver18 = person.Age > 18,
+            PersonId = person.Id.ToString(),
+            Links =
+                [
+                    new LinkResource { Rel = "self", Href = $"{baseUrl}/{person.Id}", Method = "GET" },
+                    new LinkResource { Rel = "delete", Href = $"{baseUrl}/{person.Id}", Method = "DELETE" }
+                ]
+        };
+        return SendAsync(Response, cancellation: ct);
+    }
+}
+```
+
+#### Read All Persons
+
+```csharp
+public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithoutRequest<List<PersonResponse>>
+{
+    public override void Configure()
+    {
+        Get("/person");
+        AllowAnonymous();
+    }
+
+    public override async Task HandleAsync(CancellationToken ct)
+    {
+        var baseUrl = HttpContext.Request.GetDisplayUrl();
+        var personResponses = personService.ReadPersons()
+            .Select(person => new PersonResponse
+            {
+                FullName = $"{person.FirstName} {person.LastName}",
+                IsOver18 = person.Age > 18,
+                PersonId = person.Id.ToString(),
+                Links =
+                [
+                    new LinkResource { Rel = "self", Href = $"{baseUrl}/{person.Id}", Method = "GET" },
+                    new LinkResource { Rel = "delete", Href = $"{baseUrl}/{person.Id}", Method = "DELETE" }
+                ]
+            })
+            .ToList();
+        await SendAsync(personResponses, cancellation: ct);
+    }
+}
+```
+
+#### Update Person
+
+```csharp
+public class UpdatePersonEndpoint(IPersonService personService) : Endpoint<UpdatePersonRequest, PersonResponse>
+{
+    public override void Configure()
+    {
+        Put("/person/{id}");
+        AllowAnonymous();
+    }
+
+    public override Task HandleAsync(UpdatePersonRequest req, CancellationToken ct)
+    {
+        var person = personService.UpdatePerson(req.Id.ToString(), new PersonEntity
+        {
+            FirstName = req.FirstName,
+            LastName = req.LastName,
+            Age = req.Age,
+            Email = req.Email
+        });
+        if (person == null)
+            return SendNotFoundAsync(cancellation: ct);
+        Response = new PersonResponse
+        {
+            FullName = $"{person.FirstName} {person.LastName}",
+            IsOver18 = person.Age > 18,
+            PersonId = person.Id.ToString()
+        };
+        return SendAsync(Response, cancellation: ct);
+    }
+}
+```
+
+#### Delete Person
+
+```csharp
+public class DeletePersonEndpoint : EndpointWithoutRequest
+{
+    private readonly IPersonService _personService;
+    public DeletePersonEndpoint(IPersonService personService)
+    {
+        _personService = personService;
+    }
+    public override void Configure()
+    {
+        Delete("/person/{id}");
+        AllowAnonymous();
+    }
+    public override Task HandleAsync(CancellationToken ct)
+    {
+        var personId = Route<string>("Id");
+        if (_personService.DeletePerson(personId))
+            return SendNoContentAsync(cancellation: ct);
+        else
+            return SendNotFoundAsync(cancellation: ct);
+    }
+}
+```
+
+### Request and Response Models
+
+```csharp
 public class CreatePersonRequest
 {
     public string FirstName { get; set; }
@@ -208,18 +353,30 @@ public class CreatePersonRequest
     public int Age { get; set; }
     public string Email { get; set; }
 }
-```
 
-And here's the response model that provides a unified representation of a person with HATEOAS links:
+public class UpdatePersonRequest : CreatePersonRequest
+{
+    public string Id { get; set; } = string.Empty;
+}
 
-```csharp
-// From FastEndpointApi/endpoints/PersonResponse.cs
+public class ReadPersonRequest
+{
+    public string Id { get; set; } = string.Empty;
+}
+
 public class PersonResponse
 {
     public string FullName { get; set; }
     public bool IsOver18 { get; set; }
     public string PersonId { get; internal set; }
     public List<LinkResource> Links { get; set; } = [];
+}
+
+public class LinkResource
+{
+    public string Rel { get; set; }
+    public string Href { get; set; }
+    public string Method { get; set; }
 }
 ```
 
@@ -257,15 +414,66 @@ Following good design principles, this demo separates business logic into a serv
 // From FastEndpointApi/services/PersonService.cs
 public class PersonService : IPersonService
 {
-    private readonly List<PersonEntity> _people = [];
-
+    private readonly List<PersonEntity> _people = new();
+    public PersonService()
+    {
+        // Seed 5 unique people using Bogus
+        var faker = new Faker<PersonEntity>()
+            .RuleFor(p => p.Id, f => Guid.NewGuid())
+            .RuleFor(p => p.FirstName, f => f.Name.FirstName())
+            .RuleFor(p => p.LastName, f => f.Name.LastName())
+            .RuleFor(p => p.Age, f => f.Random.Int(18, 80))
+            .RuleFor(p => p.Email, (f, p) => f.Internet.Email(p.FirstName, p.LastName));
+        _people.AddRange(faker.Generate(5));
+    }
     public PersonEntity CreatePerson(PersonEntity person)
     {
         _people.Add(person);
         return person;
     }
-
-    // Other methods for reading, updating, deleting persons...
+    public bool DeletePerson(string? id)
+    {
+        if (id == null) return false;
+        if (Guid.TryParse(id, out Guid guid))
+        {
+            var person = _people.FirstOrDefault(p => p.Id == guid);
+            if (person != null)
+            {
+                _people.Remove(person);
+                return true;
+            }
+        }
+        return false;
+    }
+    public PersonEntity? ReadPerson(string id)
+    {
+        if (Guid.TryParse(id, out Guid guid))
+            return _people.FirstOrDefault(p => p.Id == guid);
+        return null;
+    }
+    public List<PersonEntity> ReadPersons() => _people.ToList();
+    public PersonEntity? UpdatePerson(string id, PersonEntity updatedPerson)
+    {
+        if (Guid.TryParse(id, out Guid guid))
+        {
+            var person = _people.FirstOrDefault(p => p.Id == guid);
+            if (person != null)
+            {
+                var updated = new PersonEntity
+                {
+                    Id = person.Id,
+                    FirstName = updatedPerson.FirstName,
+                    LastName = updatedPerson.LastName,
+                    Age = updatedPerson.Age,
+                    Email = updatedPerson.Email
+                };
+                _people.Remove(person);
+                _people.Add(updated);
+                return updated;
+            }
+        }
+        return null;
+    }
 }
 ```
 
@@ -372,3 +580,31 @@ New to RESTful APIs or .NET development? Here's a handy glossary of terms used i
 - **ASP.NET Core**: A cross-platform, high-performance framework for building modern, cloud-based, internet-connected applications.
 
 This glossary should help junior developers better understand the concepts used throughout this project and in modern API development more broadly.
+
+## Continuous Integration & Deployment (CI/CD)
+
+This project uses GitHub Actions to automate building, testing, and deploying the ASP.NET Core application to Azure Web Apps. The workflow is defined in `.github/workflows/main_fastendpointsdemo.yml` and includes:
+
+- **Automatic Build & Test**: On every push to the `main` branch, the workflow restores dependencies, builds the project, and runs tests.
+- **Artifact Publishing**: The build output is published and uploaded as an artifact for deployment.
+- **Azure Web App Deployment**: The application is deployed to Azure using the official `azure/webapps-deploy` action, with secure authentication via OIDC.
+- **Post-Deployment Health Check**: After deployment, the workflow performs a health check on the live site to verify successful deployment.
+
+This ensures that every change to the `main` branch is automatically validated and deployed, providing a robust DevOps pipeline for the demo application.
+
+## Visual Demo: Interactive Web UI
+
+A modern, interactive web UI is included with the demo and can be accessed at `/index.html` (served from `wwwroot/index.html`). This page provides a user-friendly way to explore and interact with the Person API without needing external tools.
+
+**Features:**
+
+- **Create Person:** Fill out a form to add a new person to the in-memory data store.
+- **Get All People:** View a table of all people currently in the system.
+- **Get Person by ID:** Retrieve and display a person's details and HATEOAS links by entering their ID.
+- **Update Person:** Update an existing person's details using their ID.
+- **Delete Person:** Remove a person from the system by ID.
+- **Swagger & Article Links:** Quick access to the Swagger UI and the related article.
+
+The UI is built with Bootstrap for a clean, responsive look and uses JavaScript to call the API endpoints directly. This makes it easy to test all CRUD operations and see HATEOAS links in action.
+
+> **Tip:** The web UI is a great way to demo the API to others or to quickly verify functionality during development.
