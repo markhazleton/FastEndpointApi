@@ -1,4 +1,6 @@
-﻿namespace FastEndpointApi.services;
+﻿using Bogus;
+
+namespace FastEndpointApi.services;
 
 
 /// <summary>
@@ -6,7 +8,19 @@
 /// </summary>
 public class PersonService : IPersonService
 {
-    private readonly List<PersonEntity> _people = [];
+    private readonly List<PersonEntity> _people = new();
+
+    public PersonService()
+    {
+        // Seed 5 unique people using Bogus
+        var faker = new Faker<PersonEntity>()
+            .RuleFor(p => p.Id, f => Guid.NewGuid())
+            .RuleFor(p => p.FirstName, f => f.Name.FirstName())
+            .RuleFor(p => p.LastName, f => f.Name.LastName())
+            .RuleFor(p => p.Age, f => f.Random.Int(18, 80))
+            .RuleFor(p => p.Email, (f, p) => f.Internet.Email(p.FirstName, p.LastName));
+        _people.AddRange(faker.Generate(5));
+    }
 
     /// <summary>
     /// Creates a new person.

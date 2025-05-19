@@ -10,7 +10,7 @@ public class UpdatePersonRequest : CreatePersonRequest
     /// <summary>
     /// Gets or sets the ID of the person to update.
     /// </summary>
-    public int Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     // Note: FirstName, LastName, and Age properties are inherited from CreatePersonRequest
 }

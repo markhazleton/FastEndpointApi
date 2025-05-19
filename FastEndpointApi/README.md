@@ -185,6 +185,20 @@ public class CreatePersonRequestValidator : Validator<CreatePersonRequest>
 
 The validator will automatically be discovered and applied to the endpoint - no registration required.
 
+## CRUD Endpoints for Person (RESTful)
+
+- **Create**: `POST /person` — Create a new person
+- **Read All**: `GET /person` — Get all people
+- **Read One**: `GET /person/{id}` — Get a person by ID
+- **Update**: `PUT /person/{id}` — Update a person by ID
+- **Delete**: `DELETE /person/{id}` — Delete a person by ID
+
+All endpoints follow the REPR pattern and return consistent response models.
+
+### Data Seeding
+
+At startup, the application seeds 50 unique people using the [Bogus](https://github.com/bchavez/Bogus) library for realistic test data.
+
 ## Advanced Usage
 
 ### Using Dependency Injection

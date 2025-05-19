@@ -8,5 +8,5 @@ public class ReadPersonRequest
     /// <summary>
     /// The person identifier.
     /// </summary>
-    public string PersonId { get; set; }
+    public string Id { get; set; } = string.Empty;
 }

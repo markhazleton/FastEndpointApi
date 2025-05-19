@@ -20,7 +20,7 @@ public interface IPersonService
     /// </summary>
     /// <param name="id">The unique identifier of the person.</param>
     /// <returns>The person with the specified identifier, or null if not found.</returns>
-    PersonEntity ReadPerson(string id);
+    PersonEntity? ReadPerson(string id);
     List<PersonEntity> ReadPersons();
 
     /// <summary>
@@ -29,5 +29,5 @@ public interface IPersonService
     /// <param name="id">The unique identifier of the person to update.</param>
     /// <param name="updatedPerson">The updated person data.</param>
     /// <returns>The updated person, or null if not found.</returns>
-    PersonEntity UpdatePerson(string id, PersonEntity updatedPerson);
+    PersonEntity? UpdatePerson(string id, PersonEntity updatedPerson);
 }

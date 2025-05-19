@@ -18,7 +18,7 @@ public class CreatePersonEndpoint(IPersonService _personService) : Endpoint<Crea
     /// </summary>
     public override void Configure()
     {
-        Post("/person/create");
+        Post("/person"); // RESTful: POST /person to create
         AllowAnonymous();
     }
 

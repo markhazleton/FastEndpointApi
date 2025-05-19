@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Person API Demo</title>
+    <!-- Bootstrap 5 CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2em;
+        background: #f8f9fa;
+      }
+      .container {
+        max-width: 900px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+        padding: 2.5em 2em 2em 2em;
+      }
+      .header-section {
+        background: linear-gradient(90deg, #0d6efd 0%, #6ea8fe 100%);
+        color: #fff;
+        border-radius: 12px 12px 0 0;
+        padding: 2em 2em 1.5em 2em;
+        margin: -2.5em -2em 2em -2em;
+        box-shadow: 0 2px 8px rgba(13, 110, 253, 0.08);
+      }
+      .header-section h1 {
+        margin-bottom: 0.3em;
+        font-size: 2.2em;
+        font-weight: 700;
+      }
+      .header-section p {
+        font-size: 1.15em;
+        margin-bottom: 1.2em;
+        color: #e3eafc;
+      }
+      .header-section .subtitle {
+        font-size: 0.95em;
+        color: #e3eafc;
+      }
+      .header-links {
+        margin-bottom: 0.5em;
+      }
+      .header-links .btn {
+        margin-right: 0.7em;
+        margin-bottom: 0.5em;
+      }
+      .btn-swagger {
+        color: #0d6efd !important;
+        background: #fff !important;
+        border: 2px solid #0d6efd !important;
+      }
+      .btn-article {
+        color: #fff !important;
+        background: transparent !important;
+        border: 2px solid #fff !important;
+      }
+      .btn-article:hover {
+        background: #fff !important;
+        color: #0d6efd !important;
+      }
+      .table-container {
+        max-height: 350px;
+        overflow-y: auto;
+      }
+      section {
+        background: #f6f8fa;
+        border-radius: 8px;
+        padding: 1.5em 1em 1em 1em;
+        margin-bottom: 2em;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+      }
+      h2 {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin-bottom: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-section">
+        <h1>Person API Demo</h1>
+        <p>
+          Explore a modern FastEndpoints-powered .NET Web API with a beautiful
+          UI and full CRUD functionality.<br />
+          <span class="subtitle"
+            >Built for learning, demo, and inspiration.</span
+          >
+        </p>
+        <div class="header-links">
+          <a
+            href="/swagger/index.html"
+            class="btn btn-swagger btn-lg fw-bold"
+            target="_blank"
+            rel="noopener"
+          >
+            Open API Swagger UI
+          </a>
+          <a
+            href="https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html"
+            class="btn btn-article btn-lg fw-bold"
+            target="_blank"
+            rel="noopener"
+          >
+            Read: Making of this Demo App
+          </a>
+        </div>
+      </div>
+      <section class="mb-4">
+        <h2>Create Person</h2>
+        <div class="row g-2 align-items-center mb-2">
+          <div class="col">
+            <input
+              id="firstName"
+              class="form-control"
+              placeholder="First Name"
+            />
+          </div>
+          <div class="col">
+            <input id="lastName" class="form-control" placeholder="Last Name" />
+          </div>
+          <div class="col">
+            <input
+              id="age"
+              type="number"
+              class="form-control"
+              placeholder="Age"
+            />
+          </div>
+          <div class="col">
+            <input id="email" class="form-control" placeholder="Email" />
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary" onclick="createPerson()">
+              Create
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="mb-4">
+        <h2>Get All People</h2>
+        <button class="btn btn-secondary mb-2" onclick="getAllPeople()">
+          Refresh List
+        </button>
+        <div class="table-container">
+          <table class="table table-striped table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Person ID</th>
+                <th>Full Name</th>
+                <th>Is Over 18?</th>
+              </tr>
+            </thead>
+            <tbody id="peopleTableBody">
+              <!-- Rows will be injected here -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="mb-4">
+        <h2>Get Person by ID</h2>
+        <div class="row g-2 align-items-center mb-2">
+          <div class="col">
+            <input id="getId" class="form-control" placeholder="Person ID" />
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-info" onclick="getPerson()">Get</button>
+          </div>
+        </div>
+        <pre id="personDetail" class="bg-light p-2"></pre>
+        <div id="personLinks"></div>
+      </section>
+      <section class="mb-4">
+        <h2>Update Person</h2>
+        <div class="row g-2 align-items-center mb-2">
+          <div class="col">
+            <input id="updateId" class="form-control" placeholder="Person ID" />
+          </div>
+          <div class="col">
+            <input
+              id="updateFirstName"
+              class="form-control"
+              placeholder="First Name"
+            />
+          </div>
+          <div class="col">
+            <input
+              id="updateLastName"
+              class="form-control"
+              placeholder="Last Name"
+            />
+          </div>
+          <div class="col">
+            <input
+              id="updateAge"
+              type="number"
+              class="form-control"
+              placeholder="Age"
+            />
+          </div>
+          <div class="col">
+            <input id="updateEmail" class="form-control" placeholder="Email" />
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-warning" onclick="updatePerson()">
+              Update
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="mb-4">
+        <h2>Delete Person</h2>
+        <div class="row g-2 align-items-center mb-2">
+          <div class="col">
+            <input id="deleteId" class="form-control" placeholder="Person ID" />
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-danger" onclick="deletePerson()">
+              Delete
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const api = "/person";
+
+      async function createPerson() {
+        const body = {
+          firstName: document.getElementById("firstName").value,
+          lastName: document.getElementById("lastName").value,
+          age: parseInt(document.getElementById("age").value),
+          email: document.getElementById("email").value,
+        };
+        const res = await fetch(api, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        alert(res.ok ? "Created!" : "Error creating person");
+        getAllPeople();
+      }
+
+      async function getAllPeople() {
+        const res = await fetch(api);
+        const data = await res.json();
+        const tableBody = document.getElementById("peopleTableBody");
+        tableBody.innerHTML = "";
+        if (Array.isArray(data)) {
+          data.forEach((person) => {
+            const tr = document.createElement("tr");
+            // PersonId
+            const tdId = document.createElement("td");
+            tdId.textContent =
+              person.PersonId || person.personId || person.id || "";
+            tr.appendChild(tdId);
+            // Full Name
+            const tdName = document.createElement("td");
+            tdName.textContent = person.FullName || person.fullName || "";
+            tr.appendChild(tdName);
+            // Is Over 18
+            const tdOver18 = document.createElement("td");
+            if (typeof person.IsOver18 !== "undefined") {
+              tdOver18.textContent = person.IsOver18 ? "Yes" : "No";
+            } else if (typeof person.isOver18 !== "undefined") {
+              tdOver18.textContent = person.isOver18 ? "Yes" : "No";
+            } else {
+              tdOver18.textContent = "?";
+            }
+            tr.appendChild(tdOver18);
+            tableBody.appendChild(tr);
+          });
+        }
+      }
+
+      async function getPerson() {
+        const id = document.getElementById("getId").value;
+        const res = await fetch(`${api}/${id}`);
+        const detailElem = document.getElementById("personDetail");
+        const linksElem = document.getElementById("personLinks");
+        linksElem.innerHTML = "";
+        if (res.ok) {
+          const data = await res.json();
+          detailElem.textContent = JSON.stringify(data, null, 2);
+          // Show HATEOAS links if present
+          if (Array.isArray(data.Links) && data.Links.length > 0) {
+            let linksHtml = `<div class='mt-2'><strong>HATEOAS Links:</strong><ul class='list-unstyled mb-0'>`;
+            data.Links.forEach((link) => {
+              linksHtml += `<li><a href='${link.Href}' target='_blank' rel='noopener'>${link.Rel} <span class='badge bg-secondary'>${link.Method}</span></a></li>`;
+            });
+            linksHtml += "</ul></div>";
+            linksElem.innerHTML = linksHtml;
+          }
+        } else {
+          detailElem.textContent = "Not found";
+        }
+      }
+
+      async function updatePerson() {
+        const id = document.getElementById("updateId").value;
+        const body = {
+          firstName: document.getElementById("updateFirstName").value,
+          lastName: document.getElementById("updateLastName").value,
+          age: parseInt(document.getElementById("updateAge").value),
+          email: document.getElementById("updateEmail").value,
+        };
+        const res = await fetch(`${api}/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        alert(res.ok ? "Updated!" : "Error updating person");
+        getAllPeople();
+      }
+
+      async function deletePerson() {
+        const id = document.getElementById("deleteId").value;
+        const res = await fetch(`${api}/${id}`, { method: "DELETE" });
+        alert(res.ok ? "Deleted!" : "Error deleting person");
+        getAllPeople();
+      }
+
+      // Initial load
+      getAllPeople();
+    </script>
+    <!-- Bootstrap JS (optional, for some components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

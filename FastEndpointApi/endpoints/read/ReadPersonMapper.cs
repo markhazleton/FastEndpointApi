@@ -15,7 +15,7 @@ public class ReadPersonMapper : Mapper<ReadPersonRequest, PersonResponse, Person
     /// <returns></returns>
     public override PersonEntity ToEntity(ReadPersonRequest r) => new()
     {
-        Id = Guid.Parse(r.PersonId)
+        Id = Guid.Parse(r.Id)
     };
 
     /// <summary>

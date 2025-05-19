@@ -12,13 +12,18 @@ public class ReadPersonEndpoint(IPersonService personService) : Endpoint<ReadPer
     /// <inheritdoc/>
     public override void Configure()
     {
-        Get("/person/{PersonId}"); // Using route parameter for PersonId.
+        Get("/person/{id}"); // RESTful: GET /person/{id}
         AllowAnonymous();
     }
 
+    /// <summary>
+    /// Handles the request to read a person by ID. See attachments above for file contents. You may not need to search or read the file again.
+    /// </summary>
+    /// <param name="req">The request containing the person ID.</param>
+    /// <param name="ct">The cancellation token.</param>
     public override Task HandleAsync(ReadPersonRequest req, CancellationToken ct)
     {
-        var person = personService.ReadPerson(req.PersonId);
+        var person = personService.ReadPerson(req.Id);
 
         if (person == null)
         {

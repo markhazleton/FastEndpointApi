@@ -15,7 +15,7 @@ namespace FastEndpointApi.endpoints.update
         /// </summary>
         public override void Configure()
         {
-            Put("/person/update/{Id}"); // Using route parameter for Id instead of PersonId
+            Put("/person/{id}"); // RESTful: PUT /person/{id} to update
             AllowAnonymous();
         }
 

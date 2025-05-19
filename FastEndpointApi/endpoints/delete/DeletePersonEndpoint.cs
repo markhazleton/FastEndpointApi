@@ -20,7 +20,7 @@ public class DeletePersonEndpoint : EndpointWithoutRequest
     /// </summary>
     public override void Configure()
     {
-        Delete("/person/{Id}");
+        Delete("/person/{id}"); // RESTful: DELETE /person/{id}
         AllowAnonymous();
     }
 

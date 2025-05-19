@@ -43,6 +43,9 @@ app.UseFastEndpoints(c =>
 });
 app.UseSwaggerGen();
 app.UseSwaggerUi();
+// The file /swagger-inject.js is now served as a static file.
+// If your Swagger UI library does not support direct JS injection via options,
+// you may need to manually add <script src="/swagger-inject.js"></script> to the Swagger UI HTML template.
 app.MapApiClientEndpoint("/cs-client", c =>
 {
     c.SwaggerDocumentName = "v1"; //must match document name set above
@@ -56,9 +59,11 @@ o => //endpoint customization settings
     o.ExcludeFromDescription(); //hides this endpoint from swagger docs
 });
 
-app.MapGet("/", context =>
+app.UseStaticFiles(); // Enable serving static files from wwwroot
+
+app.MapGet("/", async context =>
 {
-    context.Response.Redirect("/swagger");
-    return Task.CompletedTask;
+    context.Response.ContentType = "text/html";
+    await context.Response.SendFileAsync("wwwroot/index.html");
 });
 app.Run();

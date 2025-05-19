@@ -15,7 +15,7 @@ public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithout
     /// </summary>
     public override void Configure()
     {
-        Get("/person/");
+        Get("/person"); // RESTful: GET /person to list all
         AllowAnonymous();
     }
 
