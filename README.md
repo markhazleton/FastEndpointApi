@@ -35,6 +35,10 @@ This guide introduces you to the FastEndpoints framework through a practical Per
   - [Advanced Usage](#advanced-usage)
     - [HATEOAS Implementation](#hateoas-implementation)
     - [Error Handling](#error-handling)
+  - [Static HTML Sample Pages](#static-html-sample-pages)
+    - [index.html](#indexhtml)
+    - [docs.html](#docshtml)
+    - [test.html](#testhtml)
   - [Why Use FastEndpoints?](#why-use-fastendpoints)
   - [Contact \& Support](#contact--support)
   - [Additional Resources](#additional-resources)
@@ -88,13 +92,18 @@ FastEndpointApi/
 │   └── delete/                      # Delete person endpoint
 │       ├── DeletePersonEndpoint.cs
 │       └── DeletePersonRequest.cs
-└── services/                        # Business logic layer
-    ├── IPersonService.cs            # Service interface
-    ├── PersonEntity.cs              # Domain model
-    └── PersonService.cs             # Service implementation
+├── services/                        # Business logic layer
+│   ├── IPersonService.cs            # Service interface
+│   ├── PersonEntity.cs              # Domain model
+│   └── PersonService.cs             # Service implementation
+├── wwwroot/                         # Static web assets
+│   ├── index.html                   # Interactive web UI
+│   ├── docs.html                    # API documentation sample page
+│   └── test.html                    # Simple test page
+└── ...
 ```
 
-This structure promotes separation of concerns, with each endpoint having its own dedicated folder containing all related files. This organization makes it easy to navigate and maintain the codebase as it grows.
+This structure promotes separation of concerns, with each endpoint having its own dedicated folder containing all related files. The `wwwroot` folder contains standalone HTML pages for demo and documentation purposes, making it easy to explore and test the API visually.
 
 ## Getting Started
 
@@ -521,6 +530,33 @@ app.UseExceptionHandler(errorApp =>
 ```
 
 This approach ensures that even unexpected exceptions are caught and returned in a consistent JSON format, improving the API's reliability and developer experience. FastEndpoints also provides additional error handling capabilities through its validation features, which aren't shown in this snippet but are documented in the FastEndpoints documentation.
+
+## Static HTML Sample Pages
+
+The `wwwroot` folder contains several standalone HTML pages that demonstrate and document the API. These are plain, easy-to-follow HTML files that require no build tools or frameworks—just open them in your browser.
+
+### index.html
+
+The main interactive web UI for the Person API. This page provides a user-friendly way to:
+
+- Create a new person
+- View all people in the system
+- Get a person by ID
+- Update a person's details
+- Delete a person
+- Quickly access Swagger UI and the related article
+
+The UI is built with Bootstrap for a clean, responsive look and uses JavaScript to call the API endpoints directly. This makes it easy to test all CRUD operations and see HATEOAS links in action. The code is simple and well-commented, making it easy to follow and adapt.
+
+### docs.html
+
+A sample documentation page that demonstrates how to present API documentation or usage instructions in a clean, readable format. This page is a plain HTML file and can be used as a template for your own API documentation. It is easy to modify and extend, and serves as a quick reference for API consumers.
+
+### test.html
+
+A minimal test page for quickly verifying API connectivity or experimenting with JavaScript fetch calls. This file is intentionally simple, making it a great starting point for learning how to interact with the API using plain JavaScript. You can use it to test endpoints or as a base for your own experiments.
+
+All these pages are self-contained and require no dependencies—just open them in your browser and start exploring.
 
 ## Why Use FastEndpoints?
 
