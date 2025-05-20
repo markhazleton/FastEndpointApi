@@ -15,7 +15,7 @@ public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithout
     /// </summary>
     public override void Configure()
     {
-        Get("/person"); // RESTful: GET /person to list all
+        Get("/person");
         AllowAnonymous();
     }
 
@@ -42,6 +42,6 @@ public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithout
             })
             .ToList();
 
-        await SendAsync(personResponses, cancellation: ct);
+        await SendAsync(personResponses, cancellation: ct).ConfigureAwait(false);
     }
 }

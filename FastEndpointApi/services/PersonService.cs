@@ -8,8 +8,11 @@ namespace FastEndpointApi.services;
 /// </summary>
 public class PersonService : IPersonService
 {
-    private readonly List<PersonEntity> _people = new();
+    private readonly List<PersonEntity> _people = [];
 
+    /// <summary>
+    /// Person Service constructor.
+    /// </summary>
     public PersonService()
     {
         // Seed 5 unique people using Bogus
@@ -60,12 +63,16 @@ public class PersonService : IPersonService
     /// </summary>
     /// <param name="id">The unique identifier of the person.</param>
     /// <returns>The person with the specified identifier, or null if not found.</returns>
-    public PersonEntity ReadPerson(string id)
+    public PersonEntity? ReadPerson(string id)
     {
         Guid guid = new(id);
         return _people.FirstOrDefault(p => p.Id == guid);
     }
 
+    /// <summary>
+    /// Reads all persons.
+    /// </summary>
+    /// <returns></returns>
     public List<PersonEntity> ReadPersons()
     {
         return [.. _people];

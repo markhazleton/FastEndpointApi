@@ -3,7 +3,6 @@ using FastEndpoints;
 using FastEndpoints.ClientGen.Kiota;
 using FastEndpoints.Swagger;
 using Kiota.Builder;
-using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints();
@@ -33,7 +32,7 @@ app.UseExceptionHandler(errorApp =>
         context.Response.StatusCode = 500;
         context.Response.ContentType = "application/json";
         var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
-        await context.Response.WriteAsJsonAsync(new { error = error?.Message ?? "An error occurred." });
+        await context.Response.WriteAsJsonAsync(new { error = error?.Message ?? "An error occurred." }).ConfigureAwait(false);
     });
 });
 
@@ -64,6 +63,6 @@ app.UseStaticFiles(); // Enable serving static files from wwwroot
 app.MapGet("/", async context =>
 {
     context.Response.ContentType = "text/html";
-    await context.Response.SendFileAsync("wwwroot/index.html");
+    await context.Response.SendFileAsync("wwwroot/index.html").ConfigureAwait(false);
 });
 app.Run();

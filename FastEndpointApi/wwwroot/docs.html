@@ -16,7 +16,8 @@
       body {
         background: #f8f9fa;
       }
-      .doc-container {
+      .doc-container,
+      .container {
         max-width: 900px;
         margin: 2em auto;
         background: #fff;
@@ -24,7 +25,8 @@
         box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
         padding: 2.5em 2em 2em 2em;
       }
-      .doc-header {
+      .doc-header,
+      .header-section {
         background: linear-gradient(90deg, #0d6efd 0%, #6ea8fe 100%);
         color: #fff;
         border-radius: 12px 12px 0 0;
@@ -32,11 +34,14 @@
         margin: -2.5em -2em 2em -2em;
         box-shadow: 0 2px 8px rgba(13, 110, 253, 0.08);
       }
-      .doc-header h1 {
+      .doc-header h1,
+      .header-section h1 {
         font-size: 2.2em;
         font-weight: 700;
       }
-      .doc-header .lead {
+      .doc-header .lead,
+      .header-section p,
+      .header-section .subtitle {
         color: #e3eafc;
       }
       .doc-nav {
@@ -67,6 +72,50 @@
     </style>
   </head>
   <body>
+    <div class="doc-nav text-center">
+      <a href="/index.html" class="btn btn-light btn-lg fw-bold">
+        <i class="bi bi-house-door"></i> Home
+      </a>
+      <a
+        href="/swagger/index.html"
+        class="btn btn-outline-primary btn-lg fw-bold"
+        target="_blank"
+        rel="noopener"
+      >
+        <i class="bi bi-diagram-3"></i> Swagger UI
+      </a>
+      <a
+        href="https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html"
+        class="btn btn-primary btn-lg fw-bold"
+        target="_blank"
+        rel="noopener"
+      >
+        <i class="bi bi-file-earmark-text"></i> Article
+      </a>
+      <a
+        href="https://github.com/MarkHazleton/FastEndpointDemo"
+        class="btn btn-dark btn-lg fw-bold"
+        target="_blank"
+        rel="noopener"
+      >
+        <i class="bi bi-github"></i> GitHub
+      </a>
+      <a
+        href="/docs.html"
+        class="btn btn-outline-secondary btn-lg fw-bold"
+        target="_blank"
+        rel="noopener"
+      >
+        <i class="bi bi-journal-code"></i> Documentation
+      </a>
+      <a
+        href="/test.html"
+        class="btn btn-success btn-lg fw-bold"
+        rel="noopener"
+      >
+        <i class="bi bi-terminal"></i> API Tester
+      </a>
+    </div>
     <div class="doc-container">
       <div class="doc-header">
         <h1>
@@ -79,29 +128,6 @@
             >By Mark Hazleton</span
           >
         </p>
-        <div class="doc-nav">
-          <a href="/index.html" class="btn btn-light btn-lg fw-bold"
-            ><i class="bi bi-house-door"></i> Home</a
-          >
-          <a
-            href="/swagger/index.html"
-            class="btn btn-outline-primary btn-lg fw-bold"
-            target="_blank"
-            ><i class="bi bi-diagram-3"></i> Swagger UI</a
-          >
-          <a
-            href="https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html"
-            class="btn btn-primary btn-lg fw-bold"
-            target="_blank"
-            ><i class="bi bi-file-earmark-text"></i> Article</a
-          >
-          <a
-            href="https://github.com/MarkHazleton/FastEndpointDemo"
-            class="btn btn-dark btn-lg fw-bold"
-            target="_blank"
-            ><i class="bi bi-github"></i> GitHub</a
-          >
-        </div>
       </div>
       <div class="mt-4">
         <!-- README CONTENT START -->
@@ -234,7 +260,12 @@
         <ul>
           <li>
             <strong>Data Seeding</strong>: 5 unique people seeded using
-            <a href="https://github.com/bchavez/Bogus" target="_blank">Bogus</a>
+            <a
+              href="https://github.com/bchavez/Bogus"
+              target="_blank"
+              rel="noopener"
+              >Bogus</a
+            >
           </li>
           <li>
             <strong>Global Error Handling</strong>: Consistent JSON error
@@ -269,30 +300,40 @@
         </h2>
         <ul>
           <li>
-            <a href="https://fast-endpoints.com/" target="_blank"
-              >Official FastEndpoints Documentation</a
+            <a
+              href="https://fast-endpoints.com/"
+              target="_blank"
+              rel="noopener"
             >
+              Official FastEndpoints Documentation
+            </a>
           </li>
           <li>
             <a
               href="https://github.com/FastEndpoints/FastEndpoints"
               target="_blank"
-              >FastEndpoints GitHub</a
+              rel="noopener"
             >
+              FastEndpoints GitHub
+            </a>
           </li>
           <li>
             <a
               href="https://www.nuget.org/packages/FastEndpoints/"
               target="_blank"
-              >NuGet Package</a
+              rel="noopener"
             >
+              NuGet Package
+            </a>
           </li>
           <li>
             <a
               href="https://www.nuget.org/packages/FastEndpoints.Swagger/"
               target="_blank"
-              >Swagger Support</a
+              rel="noopener"
             >
+              Swagger Support
+            </a>
           </li>
         </ul>
         <h2 class="section-title"><i class="bi bi-book"></i> Glossary</h2>
