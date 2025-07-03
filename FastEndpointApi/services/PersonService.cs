@@ -65,7 +65,10 @@ public class PersonService : IPersonService
     /// <returns>The person with the specified identifier, or null if not found.</returns>
     public PersonEntity? ReadPerson(string id)
     {
-        Guid guid = new(id);
+        if (!Guid.TryParse(id, out Guid guid))
+        {
+            throw new FormatException("Invalid GUID format.");
+        }
         return _people.FirstOrDefault(p => p.Id == guid);
     }
 
