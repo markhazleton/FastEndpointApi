@@ -25,7 +25,7 @@ namespace FastEndpointApi.endpoints.update
         /// <param name="req"></param>
         /// <param name="ct"></param>
         /// <returns></returns>
-        public override Task HandleAsync(UpdatePersonRequest req, CancellationToken ct)
+        public override async Task HandleAsync(UpdatePersonRequest req, CancellationToken ct)
         {
             var person = personService.UpdatePerson(req.Id.ToString(), new PersonEntity
             {
@@ -37,7 +37,8 @@ namespace FastEndpointApi.endpoints.update
 
             if (person == null)
             {
-                return SendNotFoundAsync(cancellation: ct);
+                HttpContext.Response.StatusCode = 404;
+                return;
             }
 
             Response = new PersonResponse
@@ -46,7 +47,7 @@ namespace FastEndpointApi.endpoints.update
                 IsOver18 = person.Age > 18,
                 PersonId = person.Id.ToString()
             };
-            return SendAsync(Response, cancellation: ct);
+            await HttpContext.Response.WriteAsJsonAsync(Response, ct);
         }
     }
 }

@@ -6,6 +6,69 @@ FastEndPoints is a lightweight REST API framework for ASP.NET that implements th
 
 This guide will walk you through setting up a FastEndPoints project and implementing basic functionality, using real examples from this demo project.
 
+## Project Upgrade History
+
+### .NET 10 Migration
+
+This project has been upgraded to **.NET 10** with the following package updates:
+
+- **FastEndpoints**: Updated to version **7.1.1**
+- **FastEndpoints.Attributes**: Updated to version **7.1.1**
+- **FastEndpoints.Swagger**: Updated to version **7.1.1**
+- **FastEndpoints.ClientGen.Kiota**: Updated to version **7.1.1**
+- **Bogus**: Updated to version **35.6.5**
+
+### Breaking Changes in FastEndpoints 7.x
+
+FastEndpoints 7.x introduced significant API changes that required updates to all endpoints. The following helper methods were **removed**:
+
+- `SendAsync(response, cancellation: ct)`
+- `SendNoContentAsync(cancellation: ct)`
+- `SendNotFoundAsync(cancellation: ct)`
+- `SendOkAsync(cancellation: ct)`
+- `SendCreatedAtAsync()`
+
+### Migration Solution
+
+All endpoints now use `HttpContext.Response` directly for sending responses:
+
+**Before (FastEndpoints 5.x/6.x):**
+```csharp
+public override async Task HandleAsync(CreatePersonRequest req, CancellationToken ct)
+{
+    Response = Map.FromEntity(entity);
+    await SendAsync(Response, 201, ct);
+}
+```
+
+**After (FastEndpoints 7.x):**
+```csharp
+public override async Task HandleAsync(CreatePersonRequest req, CancellationToken ct)
+{
+    Response = Map.FromEntity(entity);
+    HttpContext.Response.StatusCode = 201;
+    await HttpContext.Response.WriteAsJsonAsync(Response, ct);
+}
+```
+
+**Common Response Patterns:**
+```csharp
+// 200 OK with JSON body
+await HttpContext.Response.WriteAsJsonAsync(response, ct);
+
+// 201 Created with JSON body
+HttpContext.Response.StatusCode = 201;
+await HttpContext.Response.WriteAsJsonAsync(response, ct);
+
+// 204 No Content
+HttpContext.Response.StatusCode = 204;
+await Task.CompletedTask;
+
+// 404 Not Found
+HttpContext.Response.StatusCode = 404;
+return;
+```
+
 ## Why Use FastEndPoints?
 
 FastEndPoints offers several advantages over traditional MVC Controllers and even Minimal APIs:
@@ -151,7 +214,10 @@ public class CreatePersonEndpoint : Endpoint<CreatePersonRequest, PersonResponse
                 new LinkResource($"/api/person/{person.Id}", "self", "GET")
             }
         };
-        await SendAsync(response, cancellation: ct);
+        
+        // FastEndpoints 7.x: Use HttpContext.Response directly
+        HttpContext.Response.StatusCode = 201; // Created
+        await HttpContext.Response.WriteAsJsonAsync(response, ct);
     }
 }
 ```
@@ -275,7 +341,8 @@ public class ReadPersonEndpoint : Endpoint<ReadPersonRequest, PersonResponse>
         var person = await _personService.GetPersonByIdAsync(req.Id);
         if (person == null)
         {
-            await SendNotFoundAsync(ct);
+            // FastEndpoints 7.x: Use HttpContext.Response directly
+            HttpContext.Response.StatusCode = 404;
             return;
         }
         var response = new PersonResponse
@@ -289,24 +356,85 @@ public class ReadPersonEndpoint : Endpoint<ReadPersonRequest, PersonResponse>
                 new LinkResource($"/api/person/{person.Id}", "self", "GET")
             }
         };
-        await SendAsync(response, cancellation: ct);
+        
+        // FastEndpoints 7.x: Use HttpContext.Response directly
+        await HttpContext.Response.WriteAsJsonAsync(response, ct);
     }
 }
 ```
 
 ## Error Handling and Responses
 
-This project uses FastEndPoints' built-in response helpers. For example, in `ReadPersonEndpoint` above, `SendNotFoundAsync(ct)` is used if the person is not found.
+FastEndpoints 7.x requires using `HttpContext.Response` directly for all response operations. Here are the common patterns:
 
-Other response helpers include:
+### Success Responses
 
 ```csharp
-await SendAsync(response, cancellation: ct); // 200 OK with body
-await SendOkAsync(ct); // 200 OK without body
-await SendCreatedAtAsync("/api/person/{id}", response, cancellation: ct); // 201 Created
-await SendErrorsAsync(ct); // 400 Bad Request with validation errors
-await SendUnauthorizedAsync(ct); // 401 Unauthorized
-await SendForbiddenAsync(ct); // 403 Forbidden
+// 200 OK with JSON response
+await HttpContext.Response.WriteAsJsonAsync(response, ct);
+
+// 201 Created with JSON response
+HttpContext.Response.StatusCode = 201;
+await HttpContext.Response.WriteAsJsonAsync(response, ct);
+
+// 204 No Content (typically for DELETE operations)
+HttpContext.Response.StatusCode = 204;
+await Task.CompletedTask;
+```
+
+### Error Responses
+
+```csharp
+// 400 Bad Request with validation errors
+HttpContext.Response.StatusCode = 400;
+await HttpContext.Response.WriteAsJsonAsync(new { errors = ValidationFailures }, ct);
+
+// 401 Unauthorized
+HttpContext.Response.StatusCode = 401;
+return;
+
+// 403 Forbidden
+HttpContext.Response.StatusCode = 403;
+return;
+
+// 404 Not Found
+HttpContext.Response.StatusCode = 404;
+return;
+
+// 500 Internal Server Error
+HttpContext.Response.StatusCode = 500;
+await HttpContext.Response.WriteAsJsonAsync(new { error = "An error occurred" }, ct);
+```
+
+### Real-World Example
+
+Here's a complete example from the project showing proper error handling:
+
+```csharp
+public override async Task HandleAsync(UpdatePersonRequest req, CancellationToken ct)
+{
+    var person = personService.UpdatePerson(req.Id.ToString(), new PersonEntity
+    {
+        FirstName = req.FirstName,
+        LastName = req.LastName,
+        Age = req.Age,
+        Email = req.Email
+    });
+
+    if (person == null)
+    {
+        HttpContext.Response.StatusCode = 404;
+        return;
+    }
+
+    Response = new PersonResponse
+    {
+        FullName = $"{person.FirstName} {person.LastName}",
+        IsOver18 = person.Age > 18,
+        PersonId = person.Id.ToString()
+    };
+    await HttpContext.Response.WriteAsJsonAsync(Response, ct);
+}
 ```
 
 ## Security and Authentication
@@ -363,3 +491,70 @@ For more detailed information, check out the [official FastEndPoints documentati
 - [NuGet Package](https://www.nuget.org/packages/FastEndpoints/)
 - [Swagger Support](https://www.nuget.org/packages/FastEndpoints.Swagger/)
 - [Security Package](https://www.nuget.org/packages/FastEndpoints.Security/)
+
+## Troubleshooting
+
+### Common Issues After Upgrading to FastEndpoints 7.x
+
+#### Error: "The name 'SendAsync' does not exist in the current context"
+
+**Cause**: FastEndpoints 7.x removed the `SendAsync()`, `SendNotFoundAsync()`, `SendNoContentAsync()`, and similar helper methods.
+
+**Solution**: Use `HttpContext.Response` directly:
+
+```csharp
+// Old way (FastEndpoints 5.x/6.x)
+await SendAsync(response, cancellation: ct);
+
+// New way (FastEndpoints 7.x)
+await HttpContext.Response.WriteAsJsonAsync(response, ct);
+```
+
+#### Error: "The name 'SendNotFoundAsync' does not exist in the current context"
+
+**Cause**: Same as above - the helper method was removed.
+
+**Solution**: Set the status code directly:
+
+```csharp
+// Old way
+await SendNotFoundAsync(ct);
+
+// New way
+HttpContext.Response.StatusCode = 404;
+return;
+```
+
+#### Error: "The name 'SendNoContentAsync' does not exist in the current context"
+
+**Cause**: Same as above - the helper method was removed.
+
+**Solution**: Set the status code to 204:
+
+```csharp
+// Old way
+await SendNoContentAsync(ct);
+
+// New way
+HttpContext.Response.StatusCode = 204;
+await Task.CompletedTask;
+```
+
+### .NET 10 Compatibility
+
+This project targets **.NET 10** and has been tested with:
+- FastEndpoints 7.1.1
+- Bogus 35.6.5
+- ASP.NET Core 10.0
+
+If you encounter any issues, ensure you have:
+1. .NET 10 SDK installed
+2. All packages updated to their latest compatible versions
+3. Reviewed the FastEndpoints 7.x migration guide
+
+### Getting Help
+
+If you encounter issues not covered here:
+1. Check the [FastEndpoints Documentation](https://fast-endpoints.com/)
+2. Review the [GitHub Issues](https://github.com/FastEndpoints/FastEndpoints/issues)
+3. Examine the working code in this repository for reference implementations
