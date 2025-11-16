@@ -21,13 +21,14 @@ public class ReadPersonEndpoint(IPersonService personService) : Endpoint<ReadPer
     /// </summary>
     /// <param name="req">The request containing the person ID.</param>
     /// <param name="ct">The cancellation token.</param>
-    public override Task HandleAsync(ReadPersonRequest req, CancellationToken ct)
+    public override async Task HandleAsync(ReadPersonRequest req, CancellationToken ct)
     {
         var person = personService.ReadPerson(req.Id);
 
         if (person == null)
         {
-            return SendNotFoundAsync(cancellation: ct);
+            HttpContext.Response.StatusCode = 404;
+            return;
         }
         var baseUrl = HttpContext.Request.GetDisplayUrl();
 
@@ -42,6 +43,6 @@ public class ReadPersonEndpoint(IPersonService personService) : Endpoint<ReadPer
                     new LinkResource { Rel = "delete", Href = $"{baseUrl}/{person.Id}", Method = "DELETE" }
                 ]
         };
-        return SendAsync(Response, cancellation: ct);
+        await HttpContext.Response.WriteAsJsonAsync(Response, ct);
     }
 }

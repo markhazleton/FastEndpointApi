@@ -27,11 +27,12 @@ public class CreatePersonEndpoint(IPersonService _personService) : Endpoint<Crea
     /// </summary>
     /// <param name="req">The create person request.</param>
     /// <param name="ct">The cancellation token.</param>
-    public override Task HandleAsync(CreatePersonRequest req, CancellationToken ct)
+    public override async Task HandleAsync(CreatePersonRequest req, CancellationToken ct)
     {
         PersonEntity entity = Map.ToEntity(req);
         entity = _personService.CreatePerson(entity);
         Response = Map.FromEntity(entity);
-        return SendAsync(Response, cancellation: ct);
+        HttpContext.Response.StatusCode = 201;
+        await HttpContext.Response.WriteAsJsonAsync(Response, ct);
     }
 }
