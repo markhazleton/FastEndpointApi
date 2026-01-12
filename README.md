@@ -1,26 +1,41 @@
 # FastEndpoints: A Developer's Guide
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![.NET Version](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/download/dotnet/10.0)
+[![Build and Deploy](https://github.com/markhazleton/FastEndpointApi/actions/workflows/main_fastendpointsdemo.yml/badge.svg)](https://github.com/markhazleton/FastEndpointApi/actions/workflows/main_fastendpointsdemo.yml)
+[![FastEndpoints](https://img.shields.io/badge/FastEndpoints-7.1.1-blue)](https://fast-endpoints.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/markhazleton/FastEndpointApi/pulls)
 
 Welcome to this hands-on exploration of [FastEndpoints](https://fast-endpoints.com/)! If you're looking to streamline your ASP.NET Core API development while maintaining high performance, you're in the right place.
 
+## 🚀 Quick Links
+
+- **[🌐 Live Demo](https://fastendpointsdemo.azurewebsites.net)** - Try it now on Azure
+- **[📖 Article](https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html)** - Detailed walkthrough
+- **[📚 Swagger UI](https://fastendpointsdemo.azurewebsites.net/swagger)** - Interactive API documentation
+- **[🐛 Report Bug](https://github.com/markhazleton/FastEndpointApi/issues)** - Found an issue?
+- **[✨ Request Feature](https://github.com/markhazleton/FastEndpointApi/issues)** - Have an idea?
+
 This guide introduces you to the FastEndpoints framework through a practical Person Management demo application. By walking through this project, you'll discover how FastEndpoints can help you build clean, maintainable APIs with minimal boilerplate code.
 
-**Author**: Mark Hazleton  
+**Author**: Mark Hazleton
 **Article**: [Taking FastEndpoints For a Test Drive](https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html)
 
-## Table of Contents
+## 📋 Table of Contents
 
 - [FastEndpoints: A Developer's Guide](#fastendpoints-a-developers-guide)
-  - [Table of Contents](#table-of-contents)
+  - [🚀 Quick Links](#-quick-links)
+  - [📋 Table of Contents](#-table-of-contents)
+  - [📊 Project Status](#-project-status)
+  - [🛠️ Technology Stack](#️-technology-stack)
   - [What is FastEndpoints?](#what-is-fastendpoints)
-  - [Key Features](#key-features)
-  - [Project Structure](#project-structure)
-  - [Getting Started](#getting-started)
+  - [✨ Key Features](#-key-features)
+  - [📁 Project Structure](#-project-structure)
+  - [🚦 Getting Started](#-getting-started)
     - [Prerequisites](#prerequisites)
     - [Running the Project](#running-the-project)
-  - [API Endpoints](#api-endpoints)
-  - [Implementation Details](#implementation-details)
+  - [🔌 API Endpoints](#-api-endpoints)
+  - [💡 Implementation Details](#-implementation-details)
     - [Data Seeding](#data-seeding)
     - [Basic Configuration](#basic-configuration)
     - [Endpoint Implementation](#endpoint-implementation)
@@ -32,19 +47,50 @@ This guide introduces you to the FastEndpoints framework through a practical Per
     - [Request and Response Models](#request-and-response-models)
     - [Mapping with FastEndpoints](#mapping-with-fastendpoints)
     - [Service Layer](#service-layer)
-  - [Advanced Usage](#advanced-usage)
+  - [🚀 Advanced Usage](#-advanced-usage)
     - [HATEOAS Implementation](#hateoas-implementation)
     - [Error Handling](#error-handling)
-  - [Static HTML Sample Pages](#static-html-sample-pages)
+  - [🌐 Static HTML Sample Pages](#-static-html-sample-pages)
     - [index.html](#indexhtml)
     - [docs.html](#docshtml)
     - [test.html](#testhtml)
-  - [Why Use FastEndpoints?](#why-use-fastendpoints)
-  - [Contact \& Support](#contact--support)
-  - [Additional Resources](#additional-resources)
-  - [Glossary of Terms](#glossary-of-terms)
-  - [Continuous Integration \& Deployment (CI/CD)](#continuous-integration--deployment-cicd)
-  - [Visual Demo: Interactive Web UI](#visual-demo-interactive-web-ui)
+  - [🎯 Why Use FastEndpoints?](#-why-use-fastendpoints)
+  - [🎨 Screenshots](#-screenshots)
+  - [🔧 Troubleshooting](#-troubleshooting)
+  - [🤝 Contributing](#-contributing)
+  - [📞 Contact \& Support](#-contact--support)
+  - [📚 Additional Resources](#-additional-resources)
+  - [📖 Glossary of Terms](#-glossary-of-terms)
+  - [🚢 Continuous Integration \& Deployment (CI/CD)](#-continuous-integration--deployment-cicd)
+  - [🎬 Visual Demo: Interactive Web UI](#-visual-demo-interactive-web-ui)
+  - [📝 Changelog](#-changelog)
+  - [🙏 Acknowledgments](#-acknowledgments)
+  - [📄 License](#-license)
+
+## 📊 Project Status
+
+🟢 **Active Development** - This project is actively maintained and updated
+
+- ✅ Fully functional demo application
+- ✅ Production-ready code patterns
+- ✅ Deployed to Azure Web Apps
+- ✅ CI/CD pipeline via GitHub Actions
+- ✅ Comprehensive documentation
+
+## 🛠️ Technology Stack
+
+This project is built with modern, production-ready technologies:
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| [.NET](https://dotnet.microsoft.com/) | 10.0 | Runtime & Framework |
+| [FastEndpoints](https://fast-endpoints.com/) | 7.1.1 | API Framework (REPR Pattern) |
+| [FastEndpoints.Swagger](https://www.nuget.org/packages/FastEndpoints.Swagger/) | 7.1.1 | OpenAPI Documentation |
+| [Bogus](https://github.com/bchavez/Bogus) | 35.6.5 | Fake Data Generation |
+| [Bootstrap](https://getbootstrap.com/) | 5.3.3 | Frontend UI Framework |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.11.3 | Icon Library |
+| [GitHub Actions](https://github.com/features/actions) | - | CI/CD Pipeline |
+| [Azure Web Apps](https://azure.microsoft.com/en-us/products/app-service/web) | - | Cloud Hosting |
 
 ## What is FastEndpoints?
 
@@ -52,7 +98,7 @@ FastEndpoints is a lightweight REST API framework for ASP.NET that implements th
 
 In this guide, we'll explore a simple Person Management API that demonstrates the power and simplicity of FastEndpoints. You'll see firsthand how this framework encourages clean separation of concerns and implements modern API practices like HATEOAS, making your code more maintainable and your APIs more user-friendly.
 
-## Key Features
+## ✨ Key Features
 
 This demo project is designed to showcase FastEndpoints in action through a simple yet comprehensive person management API. Here's what you'll find:
 
@@ -67,7 +113,7 @@ This demo project is designed to showcase FastEndpoints in action through a simp
 
 Each feature is implemented in a straightforward way, making it easy to understand and adapt to your own projects.
 
-## Project Structure
+## 📁 Project Structure
 
 The demo project follows a clean, organized structure that aligns with the REPR pattern. Let's look at how the files are organized:
 
@@ -99,13 +145,14 @@ FastEndpointApi/
 ├── wwwroot/                         # Static web assets
 │   ├── index.html                   # Interactive web UI
 │   ├── docs.html                    # API documentation sample page
-│   └── test.html                    # Simple test page
+│   ├── test.html                    # Simple test page
+│   └── swagger-inject.js            # Swagger UI customization
 └── ...
 ```
 
 This structure promotes separation of concerns, with each endpoint having its own dedicated folder containing all related files. The `wwwroot` folder contains standalone HTML pages for demo and documentation purposes, making it easy to explore and test the API visually.
 
-## Getting Started
+## 🚦 Getting Started
 
 Ready to dive in? Let's get this demo project up and running on your machine!
 
@@ -113,8 +160,17 @@ Ready to dive in? Let's get this demo project up and running on your machine!
 
 Before you begin, make sure you have:
 
-- **.NET 9.0 SDK** or later installed on your machine
-- An IDE of your choice: **Visual Studio**, **VS Code**, or **Rider**
+- **.NET 10.0 SDK** or later installed on your machine
+  - [Download .NET 10.0 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+  - Verify installation: `dotnet --version` (should show 10.0.x)
+- An IDE of your choice:
+  - [Visual Studio 2022](https://visualstudio.microsoft.com/) (v17.12+)
+  - [VS Code](https://code.visualstudio.com/) with [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+  - [JetBrains Rider](https://www.jetbrains.com/rider/)
+
+**Optional Tools:**
+- [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/) for API testing
+- [Git](https://git-scm.com/) for version control
 
 ### Running the Project
 
@@ -123,8 +179,8 @@ Follow these simple steps to get the project running:
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/MarkHazleton/FastEndpointDemo.git
-   cd FastEndpointDemo
+   git clone https://github.com/markhazleton/FastEndpointApi.git
+   cd FastEndpointApi
    ```
 
 2. Build and run the project:
@@ -139,7 +195,7 @@ Follow these simple steps to get the project running:
 
 Once the application is running, you can use Swagger to test all the endpoints without needing any additional tools. This makes it easy to understand how the API works and how the different parts interact.
 
-## API Endpoints
+## 🔌 API Endpoints
 
 Let's explore the available endpoints in our Person Management API:
 
@@ -153,7 +209,7 @@ Let's explore the available endpoints in our Person Management API:
 
 When you run the application and navigate to the Swagger UI, you'll be able to test each of these endpoints interactively. This makes it easy to understand how the API works and see the HATEOAS links in action.
 
-## Implementation Details
+## 💡 Implementation Details
 
 Let's dive into how this API is built using FastEndpoints. Understanding these patterns will help you quickly adapt the concepts to your own projects.
 
@@ -486,7 +542,7 @@ public class PersonService : IPersonService
 }
 ```
 
-## Advanced Usage
+## 🚀 Advanced Usage
 
 Once you've mastered the basics, FastEndpoints offers several advanced features that can enhance your API. Let's explore a couple of them implemented in this demo.
 
@@ -531,7 +587,7 @@ app.UseExceptionHandler(errorApp =>
 
 This approach ensures that even unexpected exceptions are caught and returned in a consistent JSON format, improving the API's reliability and developer experience. FastEndpoints also provides additional error handling capabilities through its validation features, which aren't shown in this snippet but are documented in the FastEndpoints documentation.
 
-## Static HTML Sample Pages
+## 🌐 Static HTML Sample Pages
 
 The `wwwroot` folder contains several standalone HTML pages that demonstrate and document the API. These are plain, easy-to-follow HTML files that require no build tools or frameworks—just open them in your browser.
 
@@ -558,7 +614,7 @@ A minimal test page for quickly verifying API connectivity or experimenting with
 
 All these pages are self-contained and require no dependencies—just open them in your browser and start exploring.
 
-## Why Use FastEndpoints?
+## 🎯 Why Use FastEndpoints?
 
 If you're wondering whether FastEndpoints is right for your project, consider these advantages over traditional MVC Controllers and even Minimal APIs:
 
@@ -572,20 +628,207 @@ If you're wondering whether FastEndpoints is right for your project, consider th
 
 By adopting FastEndpoints, you'll find that your API development becomes more streamlined, allowing you to focus on business logic rather than plumbing code.
 
-## Contact & Support
+## 🎨 Screenshots
 
-Have questions or encountered an issue? Feel free to [create an issue](https://github.com/MarkHazleton/FastEndpointDemo/issues) on the GitHub repository.
+### Interactive Web UI
+![Person API Demo UI](https://via.placeholder.com/800x500/0d6efd/ffffff?text=Interactive+Web+UI+-+Add+Your+Screenshot+Here)
 
-## Additional Resources
+*The main interface provides full CRUD operations with a clean, modern design built with Bootstrap 5.*
+
+### Swagger/OpenAPI Documentation
+![Swagger UI](https://via.placeholder.com/800x500/85ea2d/000000?text=Swagger+UI+-+Add+Your+Screenshot+Here)
+
+*Interactive API documentation with try-it-now functionality for all endpoints.*
+
+### HATEOAS Links in Action
+```json
+{
+  "fullName": "John Doe",
+  "isOver18": true,
+  "personId": "123e4567-e89b-12d3-a456-426614174000",
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://localhost:7000/person/123e4567-e89b-12d3-a456-426614174000",
+      "method": "GET"
+    },
+    {
+      "rel": "delete",
+      "href": "https://localhost:7000/person/123e4567-e89b-12d3-a456-426614174000",
+      "method": "DELETE"
+    }
+  ]
+}
+```
+
+> **Note:** Replace placeholder images with actual screenshots by adding images to your repository and updating the URLs.
+
+## 🔧 Troubleshooting
+
+### Common Issues and Solutions
+
+#### Port Already in Use
+**Problem:** `System.IO.IOException: Failed to bind to address https://127.0.0.1:7000`
+
+**Solution:**
+```bash
+# Windows - Find and kill process using port 7000
+netstat -ano | findstr :7000
+taskkill /PID <process_id> /F
+
+# Linux/Mac - Find and kill process
+lsof -ti:7000 | xargs kill -9
+```
+
+#### HTTPS Certificate Issues
+**Problem:** `Unable to configure HTTPS endpoint` or certificate trust warnings
+
+**Solution:**
+```bash
+# Trust the .NET development certificate
+dotnet dev-certs https --trust
+
+# If that doesn't work, clean and recreate
+dotnet dev-certs https --clean
+dotnet dev-certs https --trust
+```
+
+#### Swagger UI Not Loading
+**Problem:** Swagger page shows blank or doesn't load
+
+**Solution:**
+- Ensure you're running in Development mode
+- Check that `app.UseSwaggerGen()` and `app.UseSwaggerUi()` are called in `Program.cs`
+- Try accessing `/swagger/index.html` directly
+
+#### .NET SDK Version Mismatch
+**Problem:** `The current .NET SDK does not support targeting .NET 10.0`
+
+**Solution:**
+```bash
+# Check your installed SDK version
+dotnet --version
+
+# If it's older than 10.0, download and install .NET 10.0 SDK
+# https://dotnet.microsoft.com/download/dotnet/10.0
+```
+
+#### Build Errors After Cloning
+**Problem:** Build fails with missing dependencies
+
+**Solution:**
+```bash
+# Clean and restore all packages
+dotnet clean
+dotnet restore
+dotnet build
+```
+
+### Still Having Issues?
+
+If you encounter other problems:
+1. Check the [GitHub Issues](https://github.com/markhazleton/FastEndpointApi/issues) for similar problems
+2. Review the [FastEndpoints Documentation](https://fast-endpoints.com/)
+3. [Create a new issue](https://github.com/markhazleton/FastEndpointApi/issues/new) with:
+   - Your .NET version (`dotnet --version`)
+   - Operating system
+   - Full error message
+   - Steps to reproduce
+
+## 🤝 Contributing
+
+Contributions are welcome and appreciated! Here's how you can help:
+
+### Ways to Contribute
+
+- 🐛 **Report Bugs** - [Open an issue](https://github.com/markhazleton/FastEndpointApi/issues/new) with details
+- ✨ **Suggest Features** - Share your ideas for improvements
+- 📖 **Improve Documentation** - Help make the docs clearer
+- 💻 **Submit Pull Requests** - Contribute code improvements
+
+### Getting Started with Contributing
+
+1. **Fork the repository**
+   ```bash
+   # Click the 'Fork' button at the top of this repository
+   ```
+
+2. **Clone your fork**
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/FastEndpointApi.git
+   cd FastEndpointApi
+   ```
+
+3. **Create a feature branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+4. **Make your changes**
+   - Write clean, readable code
+   - Follow existing code style and patterns
+   - Add comments where helpful
+   - Update documentation as needed
+
+5. **Test your changes**
+   ```bash
+   dotnet build
+   dotnet test
+   dotnet run
+   ```
+
+6. **Commit and push**
+   ```bash
+   git add .
+   git commit -m "Add: Brief description of your changes"
+   git push origin feature/your-feature-name
+   ```
+
+7. **Open a Pull Request**
+   - Go to the original repository
+   - Click "New Pull Request"
+   - Select your feature branch
+   - Describe your changes clearly
+
+### Code Style Guidelines
+
+- Follow standard C# naming conventions
+- Use meaningful variable and method names
+- Keep methods focused and concise
+- Add XML documentation for public APIs
+- Maintain the existing project structure
+
+### Pull Request Guidelines
+
+- ✅ Ensure all builds pass
+- ✅ Update README if adding features
+- ✅ Include screenshots for UI changes
+- ✅ Reference related issues
+- ✅ Keep PRs focused on a single concern
+
+## 📞 Contact & Support
+
+Have questions or encountered an issue? Feel free to reach out:
+
+- 📧 **Email:** Via [Mark Hazleton's website](https://markhazleton.com)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/markhazleton/FastEndpointApi/issues)
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/markhazleton/FastEndpointApi/discussions)
+- 📝 **Blog:** [Mark Hazleton's Articles](https://markhazleton.com/articles/)
+
+## 📚 Additional Resources
 
 Want to learn more? Check out these valuable resources:
 
-- [Official FastEndPoints Documentation](https://fast-endpoints.com/)
-- [FastEndPoints GitHub Repository](https://github.com/FastEndpoints/FastEndpoints)
-- [NuGet Package](https://www.nuget.org/packages/FastEndpoints/)
-- [Swagger Support](https://www.nuget.org/packages/FastEndpoints.Swagger/)
+- 📘 [Official FastEndpoints Documentation](https://fast-endpoints.com/)
+- 💻 [FastEndpoints GitHub Repository](https://github.com/FastEndpoints/FastEndpoints)
+- 📦 [FastEndpoints NuGet Package](https://www.nuget.org/packages/FastEndpoints/)
+- 📊 [FastEndpoints.Swagger Package](https://www.nuget.org/packages/FastEndpoints.Swagger/)
+- 🎓 [.NET 10.0 Documentation](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10/overview)
+- 🌐 [ASP.NET Core Documentation](https://learn.microsoft.com/en-us/aspnet/core/)
+- 🎨 [Bootstrap 5 Documentation](https://getbootstrap.com/docs/5.3/)
+- 🔧 [Bogus Library for Fake Data](https://github.com/bchavez/Bogus)
 
-## Glossary of Terms
+## 📖 Glossary of Terms
 
 New to RESTful APIs or .NET development? Here's a handy glossary of terms used in this project:
 
@@ -617,7 +860,7 @@ New to RESTful APIs or .NET development? Here's a handy glossary of terms used i
 
 This glossary should help junior developers better understand the concepts used throughout this project and in modern API development more broadly.
 
-## Continuous Integration & Deployment (CI/CD)
+## 🚢 Continuous Integration & Deployment (CI/CD)
 
 This project uses GitHub Actions to automate building, testing, and deploying the ASP.NET Core application to Azure Web Apps. The workflow is defined in `.github/workflows/main_fastendpointsdemo.yml` and includes:
 
@@ -628,7 +871,27 @@ This project uses GitHub Actions to automate building, testing, and deploying th
 
 This ensures that every change to the `main` branch is automatically validated and deployed, providing a robust DevOps pipeline for the demo application.
 
-## Visual Demo: Interactive Web UI
+### CI/CD Workflow Stages
+
+```mermaid
+graph LR
+    A[Push to main] --> B[Checkout Code]
+    B --> C[Restore Dependencies]
+    C --> D[Build Project]
+    D --> E[Run Tests]
+    E --> F[Publish Artifacts]
+    F --> G[Deploy to Azure]
+    G --> H[Health Check]
+```
+
+### View Build Status
+
+You can monitor the build and deployment status:
+- [View GitHub Actions Workflows](https://github.com/markhazleton/FastEndpointApi/actions)
+- Check the build badge at the top of this README
+- [View Live Site](https://fastendpointsdemo.azurewebsites.net)
+
+## 🎬 Visual Demo: Interactive Web UI
 
 A modern, interactive web UI is included with the demo and can be accessed at `/index.html` (served from `wwwroot/index.html`). This page provides a user-friendly way to explore and interact with the Person API without needing external tools.
 
@@ -644,3 +907,83 @@ A modern, interactive web UI is included with the demo and can be accessed at `/
 The UI is built with Bootstrap for a clean, responsive look and uses JavaScript to call the API endpoints directly. This makes it easy to test all CRUD operations and see HATEOAS links in action.
 
 > **Tip:** The web UI is a great way to demo the API to others or to quickly verify functionality during development.
+
+## 📝 Changelog
+
+### Version 2.0.0 (2025-01-12)
+- ✨ Upgraded to .NET 10.0
+- ⬆️ Updated FastEndpoints to 7.1.1
+- 🎨 Enhanced UI with Bootstrap 5.3.3
+- 📚 Comprehensive README improvements
+- 🔄 Improved CI/CD pipeline with OIDC authentication
+
+### Version 1.0.0 (2024)
+- 🎉 Initial release
+- ✅ Complete CRUD operations
+- 📖 Swagger/OpenAPI documentation
+- 🌐 Interactive web UI
+- 🔗 HATEOAS implementation
+- ☁️ Azure deployment
+
+For detailed version history, see [Releases](https://github.com/markhazleton/FastEndpointApi/releases).
+
+## 🙏 Acknowledgments
+
+This project wouldn't be possible without these amazing resources and communities:
+
+- **[FastEndpoints Team](https://github.com/FastEndpoints/FastEndpoints)** - For creating an outstanding API framework that makes .NET development a joy
+- **[Ryan Palmer (FastEndpoints Creator)](https://github.com/dj-nitehawk)** - For the vision and continuous improvement of FastEndpoints
+- **[Brian Chavez (Bogus Creator)](https://github.com/bchavez)** - For the Bogus library that makes test data generation simple
+- **[Microsoft .NET Team](https://github.com/dotnet)** - For the incredible .NET platform
+- **[Bootstrap Team](https://getbootstrap.com/)** - For the beautiful, responsive UI framework
+- **The .NET Community** - For continuous support, feedback, and contributions
+
+### Inspired By
+
+- [FastEndpoints Official Examples](https://github.com/FastEndpoints/FastEndpoints/tree/main/Examples)
+- [Clean Architecture Principles](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [REPR Design Pattern](https://deviq.com/design-patterns/repr-design-pattern)
+
+### Special Thanks
+
+To all contributors, testers, and users who have provided feedback and suggestions to improve this demo project.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+
+```
+MIT License
+
+Copyright (c) 2024-2025 Mark Hazleton
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+<div align="center">
+
+**[⬆ Back to Top](#fastendpoints-a-developers-guide)**
+
+Made with ❤️ by [Mark Hazleton](https://markhazleton.com)
+
+If you found this helpful, please consider giving it a ⭐ on [GitHub](https://github.com/markhazleton/FastEndpointApi)!
+
+</div>
