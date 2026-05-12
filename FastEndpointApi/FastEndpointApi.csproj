@@ -14,5 +14,6 @@
     <PackageReference Include="FastEndpoints.Attributes" Version="8.1.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="8.1.0" />
     <PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="8.1.0" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.22.0" />
   </ItemGroup>
 </Project>

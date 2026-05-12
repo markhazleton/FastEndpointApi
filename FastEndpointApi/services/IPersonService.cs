@@ -1,5 +1,8 @@
 ﻿namespace FastEndpointApi.services;
 
+/// <summary>
+/// Defines CRUD operations for person entities.
+/// </summary>
 public interface IPersonService
 {
     /// <summary>
@@ -21,6 +24,11 @@ public interface IPersonService
     /// <param name="id">The unique identifier of the person.</param>
     /// <returns>The person with the specified identifier, or null if not found.</returns>
     PersonEntity? ReadPerson(string id);
+
+    /// <summary>
+    /// Reads all persons.
+    /// </summary>
+    /// <returns>A list of all persons.</returns>
     List<PersonEntity> ReadPersons();
 
     /// <summary>

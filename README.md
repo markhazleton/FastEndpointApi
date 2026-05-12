@@ -6,13 +6,15 @@
 [![FastEndpoints](https://img.shields.io/badge/FastEndpoints-7.1.1-blue)](https://fast-endpoints.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/markhazleton/FastEndpointApi/pulls)
 
+**Live Site**: [https://fastendpoints.makeboldspark.com](https://fastendpoints.makeboldspark.com)
+
 Welcome to this hands-on exploration of [FastEndpoints](https://fast-endpoints.com/)! If you're looking to streamline your ASP.NET Core API development while maintaining high performance, you're in the right place.
 
 ## 🚀 Quick Links
 
-- **[🌐 Live Demo](https://fastendpointsdemo.azurewebsites.net)** - Try it now on Azure
+- **[🌐 Live Demo](https://fastendpoints.makeboldspark.com)** - Try it now
 - **[📖 Article](https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html)** - Detailed walkthrough
-- **[📚 Swagger UI](https://fastendpointsdemo.azurewebsites.net/swagger)** - Interactive API documentation
+- **[📚 Swagger UI](https://fastendpoints.makeboldspark.com/swagger)** - Interactive API documentation
 - **[🐛 Report Bug](https://github.com/markhazleton/FastEndpointApi/issues)** - Found an issue?
 - **[✨ Request Feature](https://github.com/markhazleton/FastEndpointApi/issues)** - Have an idea?
 
@@ -20,6 +22,15 @@ This guide introduces you to the FastEndpoints framework through a practical Per
 
 **Author**: Mark Hazleton
 **Article**: [Taking FastEndpoints For a Test Drive](https://markhazleton.com/articles/taking-fastendpoints-for-a-test-drive.html)
+
+## About
+
+FastEndpointsSpark is a hands-on demonstration of the [FastEndpoints](https://fast-endpoints.com/) framework for ASP.NET Core, showcasing the REPR (Request-Endpoint-Response) Pattern through a fully functional Person Management API. It covers CRUD operations, HATEOAS links, Swagger/OpenAPI documentation, and CI/CD deployment — all built with .NET 10.
+
+**Live Site**: [https://fastendpoints.makeboldspark.com](https://fastendpoints.makeboldspark.com)
+
+> Built by [Mark Hazleton](https://markhazleton.com) — Mark Hazleton, Solutions Architect
+> FastEndpointsSpark is part of the [Make Bold Spark](https://makeboldspark.com) portfolio of technical demonstrations.
 
 ## 📋 Table of Contents
 
@@ -889,7 +900,7 @@ graph LR
 You can monitor the build and deployment status:
 - [View GitHub Actions Workflows](https://github.com/markhazleton/FastEndpointApi/actions)
 - Check the build badge at the top of this README
-- [View Live Site](https://fastendpointsdemo.azurewebsites.net)
+- [View Live Site](https://fastendpoints.makeboldspark.com)
 
 ## 🎬 Visual Demo: Interactive Web UI
 
