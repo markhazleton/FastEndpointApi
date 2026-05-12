@@ -10,9 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.5" />
-    <PackageReference Include="FastEndpoints" Version="7.1.1" />
-    <PackageReference Include="FastEndpoints.Attributes" Version="7.1.1" />
-    <PackageReference Include="FastEndpoints.Swagger" Version="7.1.1" />
-    <PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="7.1.1" />
+    <PackageReference Include="FastEndpoints" Version="8.1.0" />
+    <PackageReference Include="FastEndpoints.Attributes" Version="8.1.0" />
+    <PackageReference Include="FastEndpoints.Swagger" Version="8.1.0" />
+    <PackageReference Include="FastEndpoints.ClientGen.Kiota" Version="8.1.0" />
   </ItemGroup>
 </Project>
