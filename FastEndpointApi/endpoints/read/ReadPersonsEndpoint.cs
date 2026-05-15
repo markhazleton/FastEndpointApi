@@ -42,6 +42,7 @@ public class ReadPersonsEndpoint(IPersonService personService) : EndpointWithout
             })
             .ToList();
 
-        await HttpContext.Response.WriteAsJsonAsync(personResponses, ct);
+        Response = personResponses;
+        await Task.CompletedTask;
     }
 }

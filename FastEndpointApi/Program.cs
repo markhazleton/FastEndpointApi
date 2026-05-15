@@ -3,6 +3,8 @@ using FastEndpoints;
 using FastEndpoints.ClientGen.Kiota;
 using FastEndpoints.Swagger;
 using Kiota.Builder;
+using System.Text;
+using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints();
@@ -18,6 +20,79 @@ builder.Services.SwaggerDocument(o =>
 builder.Services.AddSingleton<IPersonService, PersonService>();
 
 var app = builder.Build();
+
+const string GoogleAnalyticsTag = """
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RY77Z11S9E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RY77Z11S9E');
+</script>
+""";
+
+app.Use(async (context, next) =>
+{
+    var originalBody = context.Response.Body;
+    await using var responseBuffer = new MemoryStream();
+    context.Response.Body = responseBuffer;
+
+    await next().ConfigureAwait(false);
+
+    context.Response.Body = originalBody;
+
+    var status = context.Response.StatusCode;
+    var bodyNotAllowed =
+        (status >= 100 && status < 200) ||
+        status == StatusCodes.Status204NoContent ||
+        status == StatusCodes.Status304NotModified ||
+        HttpMethods.IsHead(context.Request.Method);
+
+    if (bodyNotAllowed)
+    {
+        context.Response.ContentLength = 0;
+        return;
+    }
+
+    responseBuffer.Position = 0;
+
+    if (context.Response.ContentType?.Contains("text/html", StringComparison.OrdinalIgnoreCase) == true)
+    {
+        using var reader = new StreamReader(responseBuffer, Encoding.UTF8, leaveOpen: true);
+        var html = await reader.ReadToEndAsync().ConfigureAwait(false);
+
+        html = Regex.Replace(
+            html,
+            "<script[^>]*src=\"https://www\\.googletagmanager\\.com/gtag/js\\?id=[^\"]+\"[^>]*>\\s*</script>",
+            string.Empty,
+            RegexOptions.IgnoreCase);
+
+        html = Regex.Replace(
+            html,
+            "<script>\\s*window\\.dataLayer\\s*=\\s*window\\.dataLayer\\s*\\|\\|\\s*\\[\\];[\\s\\S]*?gtag\\('config',\\s*'[^']+'\\s*\\);\\s*</script>",
+            string.Empty,
+            RegexOptions.IgnoreCase);
+
+        if (!html.Contains("G-RY77Z11S9E", StringComparison.OrdinalIgnoreCase) &&
+            html.Contains("</head>", StringComparison.OrdinalIgnoreCase))
+        {
+            html = html.Replace(
+                "</head>",
+                $"{GoogleAnalyticsTag}{Environment.NewLine}</head>",
+                StringComparison.OrdinalIgnoreCase);
+        }
+
+        var output = Encoding.UTF8.GetBytes(html);
+        context.Response.ContentLength = output.Length;
+        await context.Response.Body.WriteAsync(output).ConfigureAwait(false);
+        return;
+    }
+
+    responseBuffer.Position = 0;
+    await responseBuffer.CopyToAsync(originalBody).ConfigureAwait(false);
+});
 
 if (app.Environment.IsDevelopment())
 {
